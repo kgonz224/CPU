@@ -4,7 +4,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 	input[10:0] inst31_21;
 	output[1:0] ALUOp;
 	output Reg2Loc, Branch, MemRead, MemtoReg;
-    output MemWrite, ALUSrc, RegWrite;
+        output MemWrite, ALUSrc, RegWrite;
 	
 	wire [1:0] ALUOp;
 	wire Reg2Loc, Branch, MemRead, MemtoReg;
