@@ -11,7 +11,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 	wire MemWrite, ALUSrc, RegWrite;
 	
 	
-	always @* begin 
+	always @ (*) begin 
 		if (inst31_21 == 11'b11111000010) begin //LDUR 
 				Reg2Loc <= x; // ??
 				Branch <= 0;
