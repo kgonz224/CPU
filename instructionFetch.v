@@ -4,6 +4,8 @@
    Edited: Kevin Gonzalez, Dianaliz
 */
 
+`include "InstructionDecode.v"
+
 module template_tb; // processor test bench template
   reg [7:0] IMem[4095:0]; // 4096 bytes (1024 words)
   reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
@@ -16,7 +18,9 @@ module template_tb; // processor test bench template
 	$readmemh("DM_Bytes.txt", DMem);
 	PC <= 64'b0; // initialize PC
   end 
-  
+ 
+  InstructionDecode id(instruction, PC, PCSrc, BranchAddress);
+
   always //sequential logic of fetch for illustration
   begin
 	#1
