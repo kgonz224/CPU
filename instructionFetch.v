@@ -1,6 +1,7 @@
 /*
   Author: Prabakar, FIU-SCIS
    Template for proj4 test bench program
+   Edited: Kevin Gonzalez, Dianaliz
 */
 
 module template_tb; // processor test bench template
@@ -26,7 +27,14 @@ module template_tb; // processor test bench template
 	instruction[23:16] = IMem[PC + 2];
 	instruction[31:24] = IMem[PC + 3];
 	$display("Opcode value: %11b \n", instruction[31:21]);
-	PC = PC + 4; // PC needs to be updated in the processor/datapath module
+	if (PCSrc == 0)
+	begin
+		PC = PC + 4; // PC needs to be updated in the processor/datapath module
+	end
+	else
+	begin
+		PC = BranchAddress;
+	end
   end
 
   // output data memory to a file when HALT instruction is fetched
