@@ -121,6 +121,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				ALUSrc <= 0;
 				RegWrite <= 0;  
         end	
+	end 
 endmodule
 
 
