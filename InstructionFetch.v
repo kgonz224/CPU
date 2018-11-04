@@ -8,14 +8,14 @@
 
 module template_tb; // processor test bench template
   reg [7:0] IMem[4095:0]; // 4096 bytes (1024 words)
-  reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
+//  reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
   reg [31:0] instruction; // all instructions are 32-bit wide
   reg [63:0] PC; // PC contains 64-bit byte address
 
   initial // load instruction memory and data memory
   begin 
 	$readmemh("IM_Bytes.txt", IMem);
-	$readmemh("DM_Bytes.txt", DMem);
+//	$readmemh("DM_Bytes.txt", DMem);
 	PC <= 64'b0; // initialize PC
   end 
  
@@ -47,7 +47,7 @@ module template_tb; // processor test bench template
     if (instruction[31:21] == {11{1'b1}})
     begin
 	$display("final opcode is detected \n");
-	$writememh("DM_Final_Bytes.txt", DMem);
+//	$writememh("DM_Final_Bytes.txt", DMem);
 	$finish;
     end
   end
