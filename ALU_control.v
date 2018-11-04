@@ -21,7 +21,7 @@ module alu_control (inst31_21, ALUOp, control_line);
 		else if (inst31_21 == 10001010000 && ALUOp == 10)begin //and
 			control_line <= 0000;
 		end 
-		else if (inst31_21 == 10101010000 && ALUOp == 10)begin //and
+		else if (inst31_21 == 10101010000 && ALUOp == 10)begin //orr
 			control_line <= 0001;
 		end 
     end
