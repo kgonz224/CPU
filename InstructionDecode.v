@@ -35,8 +35,8 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	  signExtInstr[63:32] = {32{Instruction[31]}};
 
 	  Excecution ex(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
-		  ALUOp, Branch, MemWrite, MemRead, MemtoReg, Data2Write, Reg2Write,
-		  OldRegWrite, BranchAddress, PCSrc);
+		  ALUOp, Branch, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write, 
+		  Reg2Write, OldRegWrite, BranchAddress, PCSrc);
   end
   always @(OldRegWrite)
   begin
