@@ -2,10 +2,10 @@
 `include "MemoryAccess.v"
 
 module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
-	ALUOp, Branch, MemWrite, MemRead, MemtoReg, Data2Write, Reg2Write,
-	oldRegWrite, oldBranchAddress, PCSrc);
+	ALUOp, Branch, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write,
+	Reg2Write, oldRegWrite, oldBranchAddress, PCSrc);
 
-  input reg ALUSrc, ALUOp, Branch, MemWrite, MemtoReg;
+  input reg ALUSrc, ALUOp, Branch, MemWrite, MemtoReg, RegWrite;
   input reg [31:0] Instruction;
   input reg [63:0] Address, signExtInstr;
   output wire oldRegWrite, PCSrc;
