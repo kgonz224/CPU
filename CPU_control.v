@@ -4,9 +4,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 	input[10:0] inst31_21;
 	output[1:0] ALUOp;
 	output Reg2Loc, Branch, MemRead, MemtoReg;
-    output MemWrite, ALUSrc, RegWrite;
+    output MemWrite, RegWrite;
 	
-	wire [1:0] ALUOp;
+	wire [1:0] ALUOp, ALUSrc;
 	wire Reg2Loc, Branch, MemRead, MemtoReg;
 	wire MemWrite, ALUSrc, RegWrite;
 	
@@ -19,7 +19,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 1;
 				ALUOp <= 2'b00;
 				MemWrite <= 0;
-				ALUSrc <= 1;
+				ALUSrc <= 2'b01;
 				RegWrite <= 1;
 		end
 		else if (inst31_21 == 11'b11111000000) begin //STUR 
@@ -29,7 +29,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= x; // ??
 				ALUOp <= 2'b00;
 				MemWrite <= 1;
-				ALUSrc <= 1;
+				ALUSrc <= 2'b01;
 				RegWrite <= 0;
 		end
 		else if (inst31_21 == 11'b10001011000) begin //ADD 
@@ -39,7 +39,17 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
+				RegWrite <= 1;
+		end
+		else if (inst31_21 == 11'b1001000100X) begin //ADDI 
+				Reg2Loc <= 0;
+				Branch <= 0;
+				MemRead <= 0;
+				MemtoReg <= 0; 
+				ALUOp <= 2'b10;
+				MemWrite <= 0;
+				ALUSrc <= 2'b10;
 				RegWrite <= 1;
 		end
 		else if (inst31_21 == 11'b11001011000) begin //SUB
@@ -49,7 +59,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end
 		else if (inst31_21 == 11'b10001010000) begin //AND
@@ -59,7 +69,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end
 		else if (inst31_21 == 11'b10101010000 ) begin //ORR
@@ -69,7 +79,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end 
 		else if (inst31_21 == 11'b10110100XXX ) begin //CBZ
@@ -79,7 +89,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				//ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end 
 		else if (inst31_21 == 11'b10110101XXX ) begin //CBNZ
@@ -89,7 +99,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				//ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end 
 		else if (inst31_21 == 11'b000101XXXXX ) begin //B
@@ -99,7 +109,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				//ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 0;
 		end 
 		else if (inst31_21 == 11'b11111111111 ) begin //HALT
@@ -109,16 +119,16 @@ module cpu_control (inst31_21,Reg2Loc, Branch, MemRead, MemtoReg
 				MemtoReg <= 0; 
 				//ALUOp <= 2'b10;
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 0;
 		end 
 		else begin
-                Reg2Loc <= 0;
+                		Reg2Loc <= 0;
 				Branch <= 0;
 				MemRead <= 0;
 				MemtoReg <= 0; 
 				MemWrite <= 0;
-				ALUSrc <= 0;
+				ALUSrc <= 2'b00;
 				RegWrite <= 0;  
         end	
 	end 
