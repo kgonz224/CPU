@@ -107,7 +107,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUOp <= 2'b10;
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
-				RegWrite <= 1;
+				RegWrite <= 0;
 		end 
 		else if (inst31_21[10:3] == 11'b10110101 ) begin //CBNZ
 				Reg2Loc <= 1;
@@ -119,7 +119,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUOp <= 2'b10;
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
-				RegWrite <= 1;
+				RegWrite <= 0;
 		end 
 		else if (inst31_21[10:5] == 11'b000101 ) begin //B
 				Reg2Loc <= 0;
