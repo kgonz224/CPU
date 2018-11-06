@@ -8,7 +8,7 @@ module WriteBack(Reg, loadedData, Results, MemToReg, RegWrite,
   output reg [4:0] Reg2Write;
   output reg oldRegWrite;
 
-  always
+  always @(*)
   begin
 	  #1
 	  oldRegWrite <= RegWrite;
