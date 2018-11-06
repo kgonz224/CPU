@@ -5,7 +5,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write,
 	Reg2Write, oldRegWrite, oldBranchAddress, PCSrc);
 
-  input /*reg*/ [1:0]] ALUSrc, ALUOp;
+  input /*reg*/ [1:0] ALUSrc, ALUOp;
   input /*reg*/ B, BZ, BNZ, MemWrite, MemtoReg, RegWrite;
   input /*reg*/ [31:0] Instruction;
   input /*reg*/ [63:0] Address, signExtInstr;
