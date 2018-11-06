@@ -6,7 +6,7 @@
 
 `include "InstructionDecode.v"
 
-module template_tb; // processor test bench template
+module InstructionFetch; // processor test bench template
   reg [7:0] IMem[4095:0]; // 4096 bytes (1024 words)
 //  reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
   reg [31:0] instruction; // all instructions are 32-bit wide
