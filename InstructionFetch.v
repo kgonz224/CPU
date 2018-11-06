@@ -36,16 +36,14 @@ module InstructionFetch; // processor test bench template
 	  instruction[23:16] = IMem[PC + 2];
 	  instruction[31:24] = IMem[PC + 3];
 	  $display("Opcode value: %32b %4d \n", instruction[31:0], i);
-  end
-	
-  always @(PCSrc)
-  begin
+	  
 	if (PCSrc == 0)
 	begin
 		PC = PC + 4; // PC needs to be updated in the processor/datapath module
 	end
 	else
 	begin
+		$display("\tBranchAddress: %64b", BranchAddress)
 		PC = BranchAddress;
 	end
   end
