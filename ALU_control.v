@@ -5,22 +5,22 @@ module alu_control (inst31_21, ALUOp, control_line);
 	
 	always @ (*) begin 
 		if ( ALUOp == 00) begin // LDUR & STUR
-			control_line <= 0010;
+			control_line <= 4'b0010;
 		end
 		else if ( ALUOp == 01) begin
-			control_line <= 0111;
+			control_line <= 4'b0111;
 		end 
 		else if (inst31_21 == 10001011000 && ALUOp == 10)begin //add
-			control_line <= 0010;
+			control_line <= 4'b0010;
 		end
 		else if (inst31_21 == 11001011000 && ALUOp == 10)begin //sub
-			control_line <= 0110;
+			control_line <= 4'b0110;
 		end 
 		else if (inst31_21 == 10001010000 && ALUOp == 10)begin //and
-			control_line <= 0000;
+			control_line <= 4'b0000;
 		end 
 		else if (inst31_21 == 10101010000 && ALUOp == 10)begin //orr
-			control_line <= 0001;
+			control_line <= 4'b0001;
 		end 
     end
 	
