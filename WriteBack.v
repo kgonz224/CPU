@@ -10,12 +10,13 @@ module WriteBack(Reg, loadedData, Results, MemToReg, RegWrite,
 
   always
   begin
-	  oldRegWrite = RegWrite;
-	  Reg2Write = Reg;
+	  oldRegWrite <= RegWrite;
+	  Reg2Write <= Reg;
 
 	  if (MemToReg == 0)
 		  Data2Write = Results;
 	  else
 		  Data2Write = loadedData;
+	  #1
   end
 endmodule
