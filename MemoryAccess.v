@@ -1,10 +1,10 @@
 `include "WriteBack.v"
 
-module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, Branch,
-  	MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
+module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
+  	BNZ, MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
 	oldRegWrite, Data2Write, Reg2Write);
 
-  input reg zero, Branch, MemRead, MemWrite, MemToReg, RegWrite;
+  input reg zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite;
   input reg [63:0] branchAddress, Results, Data2;
   input reg [31:0] Instruction;
   output PCSrc, oldRegWright;
@@ -25,7 +25,7 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, Branch,
 
   always
   begin
-	PCSrc = Branch & zero;
+	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
 
 	if (MemWrite == 1)
 		DMem[Results] = Data2;

@@ -2,11 +2,11 @@
 `include "MemoryAccess.v"
 
 module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
-	ALUOp, Branch, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write,
+	ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write,
 	Reg2Write, oldRegWrite, oldBranchAddress, PCSrc);
 
   input reg [1:0]] ALUSrc, ALUOp;
-  input reg Branch, MemWrite, MemtoReg, RegWrite;
+  input reg B, BZ, BNZ, MemWrite, MemtoReg, RegWrite;
   input reg [31:0] Instruction;
   input reg [63:0] Address, signExtInstr;
   output wire oldRegWrite, PCSrc;
@@ -16,8 +16,8 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
   wire [3:0] ALUInstr;
   wire zero;
 
-  MemoryAccess mem(Instruction, branchAddress, Results, Data2, zero, Branch,
-  	MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
+  MemoryAccess mem(Instruction, branchAddress, Results, Data2, zero, B, BZ,
+	BNZ, MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
 	oldRegWrite, Data2Write, Reg2Write);
 
   ALUControl aluControl(Instruction[31:21], ALUOp, ALUInst);

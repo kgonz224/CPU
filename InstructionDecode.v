@@ -10,7 +10,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
   output PCSrc;
   output [63:0] BranchAddress;
   wire [63:0] Data1, Data2, signExtInstr, BranchAddress;
-  wire Reg2Loc, RegWrite, Branch, MemRead, MemWrite, MemtoReg, PCSrc; 
+  wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc; 
   wire [1:0] ALUOp, ALUSrc;
 
   always
@@ -20,7 +20,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 
   always
   begin
-	  cpu_control controlUnit(Instruction[31:21], Reg2Loc, Branch,
+	  cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
 		  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
 
 	  Data1 = Regs[Instruction[9:5]];
@@ -35,8 +35,8 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	  signExtInstr[63:32] = {32{Instruction[31]}};
 
 	  Excecution ex(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
-		  ALUOp, Branch, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write, 
-		  Reg2Write, OldRegWrite, BranchAddress, PCSrc);
+		  ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite,
+		  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
   end
   always @(OldRegWrite)
   begin
