@@ -25,7 +25,7 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
   WriteBack wb(Instruction[4:0], loadedData, Results, MemToReg, RegWrite,
 	  Data2Write, Reg2Write, oldRegWrite);
 
-  always
+  always @(*)
   begin
 	#1
 	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
