@@ -38,6 +38,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 
 	  signExtInstr[31:0] = Instruction;
 	  signExtInstr[63:32] = {32{Instruction[31]}};
+	  $display("\tsignExtInstr: %64b ", signExtInstr);
 
   end
   always @(OldRegWrite)
