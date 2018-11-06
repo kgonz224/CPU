@@ -12,7 +12,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
   wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc; 
   wire [1:0] ALUOp, ALUSrc;
 
-  always
+  initial
   begin
 	Regs[31] = {64{1'b0}};
   end
@@ -27,6 +27,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	
   always
   begin
+	  #1
 	  Data1 = Regs[Instruction[9:5]];
 
 	  if (Reg2Loc == 0)
