@@ -6,7 +6,6 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
   reg [63:0] Regs [31:0]; // 32 double words
   input /*reg*/ [32:0] Instruction;
   input /*reg*/ [63:0] Address;
-  wire Reg2Loc, RegWrite;
   output PCSrc;
   output [63:0] BranchAddress;
   wire [63:0] Data1, Data2, signExtInstr, BranchAddress;
@@ -18,11 +17,11 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	Regs[31] = {64{1'b0}};
   end
 
+  cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
+	  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
+
   always
   begin
-	  cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
-		  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
-
 	  Data1 = Regs[Instruction[9:5]];
 
 	  if (Reg2Loc == 0)
