@@ -49,7 +49,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end
-		else if (inst31_21 == 11'b1001000100X) begin //ADDI 
+		else if (inst31_21[10:1] == 11'b1001000100) begin //ADDI 
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -97,7 +97,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end 
-		else if (inst31_21 == 11'b10110100XXX ) begin //CBZ
+		else if (inst31_21[10:3] == 11'b10110100 ) begin //CBZ
 				Reg2Loc <= 1;
 				Branch <= 0;
 				BranchZero <= 1;
@@ -109,7 +109,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end 
-		else if (inst31_21 == 11'b10110101XXX ) begin //CBNZ
+		else if (inst31_21[10:3] == 11'b10110101 ) begin //CBNZ
 				Reg2Loc <= 1;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -121,7 +121,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
 		end 
-		else if (inst31_21 == 11'b000101XXXXX ) begin //B
+		else if (inst31_21[10:5] == 11'b000101 ) begin //B
 				Reg2Loc <= 0;
 				Branch <= 1;
 				BranchZero <= 0;
