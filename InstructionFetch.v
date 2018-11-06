@@ -19,7 +19,7 @@ module InstructionFetch; // processor test bench template
 	$dumpvars;
 	$readmemh("IM_Bytes.txt", IMem);
 //	$readmemh("DM_Bytes.txt", DMem);
-	PC <= 64'b0; // initialize PC
+	PC = 64'b0; // initialize PC
 	i = 0;
   end 
  
@@ -36,7 +36,7 @@ module InstructionFetch; // processor test bench template
 	  instruction[23:16] = IMem[PC + 2];
 	  instruction[31:24] = IMem[PC + 3];
 	  $display("Opcode value: %32b %4d \n", instruction[31:0], i);
-	  
+	  #100
 	if (PCSrc == 0)
 	begin
 		PC = PC + 4; // PC needs to be updated in the processor/datapath module
