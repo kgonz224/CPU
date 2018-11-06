@@ -25,7 +25,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	  ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite,
 	  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
 	
-  always
+  always@(Reg2Loc)
   begin
 	  #1
 	  Data1 = Regs[Instruction[9:5]];
