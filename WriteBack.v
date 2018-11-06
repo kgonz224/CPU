@@ -18,3 +18,4 @@ module WriteBack(Reg, loadedData, Results, MemToReg, RegWrite,
 	  else
 		  Data2Write = loadedData;
   end
+endmodule
