@@ -1,4 +1,4 @@
-`include "Excecution.v"
+`include "Execution.v"
 `include "CPU_control.v"
 
 module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
