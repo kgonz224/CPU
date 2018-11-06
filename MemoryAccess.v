@@ -7,10 +7,12 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
   input /*reg*/ zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite;
   input /*reg*/ [63:0] branchAddress, Results, Data2;
   input /*reg*/ [31:0] Instruction;
-  output reg PCSrc, oldRegWrite;
-  output reg [4:0] Reg2Write;
-  output reg [63:0] oldBranchAddress, Data2Write;
+  output reg PCSrc;
+	output reg [63:0] oldBranchAddress;
   reg [63:0] loadedData;
+  output wire oldRegWrite;
+  output wire [4:0] Reg2Write;
+  output wire [63:0] Data2Write;
 
   reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
 
