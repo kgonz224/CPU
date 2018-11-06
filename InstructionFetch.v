@@ -19,6 +19,7 @@ module InstructionFetch; // processor test bench template
 	$readmemh("IM_Bytes.txt", IMem);
 //	$readmemh("DM_Bytes.txt", DMem);
 	PC <= 64'b0; // initialize PC
+	  int i = 0;
   end 
  
   InstructionDecode id(instruction, PC, PCSrc, BranchAddress);
@@ -26,13 +27,14 @@ module InstructionFetch; // processor test bench template
   always //sequential logic of fetch for illustration
   begin
 	#1
+	  i = i + 1;
 	// this code block can be performed in any other module
 	// concatenate four bytes of IMem into PC
 	  instruction[7:0] = IMem[PC];
 	  instruction[15:8] = IMem[PC + 1];
 	  instruction[23:16] = IMem[PC + 2];
 	  instruction[31:24] = IMem[PC + 3];
-	$display("Opcode value: %11b \n", instruction[31:21]);
+	  $display("Opcode value: %11b %4d \n", instruction[31:21], i);
 	#10
 	if (PCSrc == 0)
 	begin
