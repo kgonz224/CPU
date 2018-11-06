@@ -11,7 +11,8 @@ module InstructionFetch; // processor test bench template
 //  reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
   reg [31:0] instruction; // all instructions are 32-bit wide
   reg [63:0] PC; // PC contains 64-bit byte address
-
+  integer i;
+	
   initial // load instruction memory and data memory
   begin 
 	$dumpfile("CPU.vcd");
@@ -19,7 +20,7 @@ module InstructionFetch; // processor test bench template
 	$readmemh("IM_Bytes.txt", IMem);
 //	$readmemh("DM_Bytes.txt", DMem);
 	PC <= 64'b0; // initialize PC
-	  int i = 0;
+	i = 0;
   end 
  
   InstructionDecode id(instruction, PC, PCSrc, BranchAddress);
