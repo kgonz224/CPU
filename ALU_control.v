@@ -4,7 +4,7 @@ module alu_control (inst31_21, ALUOp, control_line);
 	output reg[3:0]control_line;
 	
 	always @(*) begin 
-		#1
+		#11
 		if ( ALUOp == 2'b00) begin // LDUR & STUR
 			control_line[3:0] <= 4'b0010;
 		end
