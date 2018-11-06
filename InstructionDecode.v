@@ -4,7 +4,7 @@
 module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 
   reg [63:0] Regs [31:0]; // 32 double words
-  input /*reg*/ [32:0] Instruction;
+  input /*reg*/ [31:0] Instruction;
   input /*reg*/ [63:0] Address;
   output PCSrc;
   output [63:0] BranchAddress;
