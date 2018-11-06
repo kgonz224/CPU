@@ -24,7 +24,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 
   always
   begin
-
+	#1
 	branchAddress = Address + (signExtInstr << 2);
 
 	case(ALUSrc)
