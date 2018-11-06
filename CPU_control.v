@@ -6,23 +6,23 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 	output Reg2Loc, Branch, BranchZero, BranchNonZero, MemRead, MemtoReg;
     	output MemWrite, RegWrite;
 	
-	wire [1:0] ALUOp, ALUSrc;
+	/*wire [1:0] ALUOp, ALUSrc;
 	wire Reg2Loc, Branch, BranchZero, BranchNonZero, MemRead, MemtoReg;
-	wire MemWrite, RegWrite;
+	wire MemWrite, RegWrite;*/
 	
 	
 	always @ (*) begin 
 		if 		(inst31_21 == 11'b11111000010) begin //LDUR 
-				Reg2Loc = x; // ??
-				Branch = 0;
-				BranchZero = 0;
-				BranchNonZero = 0;
-				MemRead = 1;
-				MemtoReg = 1;
-				ALUOp = 2'b00;
-				MemWrite = 0;
-				ALUSrc = 2'b01;
-				RegWrite = 1;
+				Reg2Loc <= x; // ??
+				Branch <= 0;
+				BranchZero <= 0;
+				BranchNonZero <= 0;
+				MemRead <= 1;
+				MemtoReg <= 1;
+				ALUOp <= 2'b00;
+				MemWrite <= 0;
+				ALUSrc <= 2'b01;
+				RegWrite <= 1;
 		end
 		else if (inst31_21 == 11'b11111000000) begin //STUR 
 				Reg2Loc = 1;
