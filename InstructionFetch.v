@@ -50,7 +50,7 @@ module InstructionFetch; // processor test bench template
   // output data memory to a file when HALT instruction is fetched
   always @(instruction) 
   begin
-    if (instruction[31:21] == {11{1'b1}})
+	  if (instruction[31:21] == {11{1'b1}} | i == 30)
     begin
 	$display("final opcode is detected \n");
 //	$writememh("DM_Final_Bytes.txt", DMem);
