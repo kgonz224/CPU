@@ -21,7 +21,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
 
   
-  Excecution ex(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
+  Execution ex(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	  ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite,
 	  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
 	
