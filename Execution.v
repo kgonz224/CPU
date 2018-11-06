@@ -20,7 +20,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	BNZ, MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
 	oldRegWrite, Data2Write, Reg2Write);
 
-  ALUControl aluControl(Instruction[31:21], ALUOp, ALUInst);
+  alu_control aluControl(Instruction[31:21], ALUOp, ALUInst);
 
   always
   begin
