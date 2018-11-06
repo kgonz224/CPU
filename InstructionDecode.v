@@ -42,6 +42,6 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
   begin
 	Regs[Reg2Write] = Data2Write;
   end
-end
+endmodule
 
 
