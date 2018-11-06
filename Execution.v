@@ -52,4 +52,4 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	else
 		zero = 0;
   end
-end
+endmodule
