@@ -8,13 +8,13 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
   input /*reg*/ [1:0] ALUSrc, ALUOp;
   input /*reg*/ B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite;
   input /*reg*/ [31:0] Instruction;
-  input /*reg*/ [63:0] Address, signExtInstr;
-  output wire oldRegWrite, PCSrc;
-  output wire [4:0] Reg2Write;
-  output wire [63:0] oldBranchAddress, Data2Write;
-	wire [63:0] ALUInput2, branchAddress, Results, Data1, Data2;
-  wire [3:0] ALUInstr;
-  wire zero;
+	input /*reg*/ [63:0] Address, signExtInstr, Data1, Data2;
+  output reg oldRegWrite, PCSrc;
+  output reg [4:0] Reg2Write;
+  output reg [63:0] oldBranchAddress, Data2Write;
+  reg [63:0] ALUInput2, branchAddress, Results;
+  reg [3:0] ALUInstr;
+  reg zero;
 
   MemoryAccess mem(Instruction, branchAddress, Results, Data2, zero, B, BZ,
 	BNZ, MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
