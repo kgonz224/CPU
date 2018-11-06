@@ -28,7 +28,6 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
   always@(*)
   begin
 	  #1
-	  $display("Opcode value: %32b \n", Instruction[31:0]);
 	  Data1 = Regs[Instruction[9:5]];
 
 	  if (Reg2Loc == 0)
