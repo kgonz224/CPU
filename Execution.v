@@ -5,7 +5,8 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	ALUOp, Branch, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write,
 	Reg2Write, oldRegWrite, oldBranchAddress, PCSrc);
 
-  input reg ALUSrc, ALUOp, Branch, MemWrite, MemtoReg, RegWrite;
+  input reg [1:0]] ALUSrc, ALUOp;
+  input reg Branch, MemWrite, MemtoReg, RegWrite;
   input reg [31:0] Instruction;
   input reg [63:0] Address, signExtInstr;
   output wire oldRegWrite, PCSrc;
@@ -26,10 +27,13 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 
 	branchAddress = Address + (signExtInstr << 2);
 
-	if (ALUSrc == 0)
-		ALUInput2 = Data2;
-	else
-		ALUInput2 = signExtInstr;
+	case(ALUSrc)
+		2'b00: ALUInput2 = Data2;
+		2'b01: ALUInput2 = signExtInstr;
+		2'b10: ALUInput2 = Instruction[21:10];
+		default: $display("You messed up. ALUSrc sent invalid ",
+			"Instr.\n");
+	endcase
 
 	case(ALUInst)
 		4'b0000: Results = Data1 & ALUInput2;
@@ -39,7 +43,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
                 4'b0111: Results = ALUInput2;
                 4'b1100: Results = ~(Data1 | ALUInput2);
 		default: $display("You messed up. ALUControl sent invalid ",
-		       	"Instr");
+		       	"Instr.\n");
 	endcase
 
 

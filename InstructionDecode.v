@@ -10,8 +10,8 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
   output PCSrc;
   output [63:0] BranchAddress;
   wire [63:0] Data1, Data2, signExtInstr, BranchAddress;
-  wire Reg2Loc, RegWrite, Branch, MemRead, ALUOp, ALUSrc, MemWrite, MemtoReg,
-	 PCSrc; 
+  wire Reg2Loc, RegWrite, Branch, MemRead, MemWrite, MemtoReg, PCSrc; 
+  wire [1:0] ALUOp, ALUSrc;
 
   always
   begin
