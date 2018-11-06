@@ -35,7 +35,7 @@ module InstructionFetch; // processor test bench template
 	  instruction[15:8] = IMem[PC + 1];
 	  instruction[23:16] = IMem[PC + 2];
 	  instruction[31:24] = IMem[PC + 3];
-	  $display("Opcode value: %11b %4d \n", instruction[31:21], i);
+	  $display("Opcode value: %32b %4d \n", instruction[31:0], i);
 	#10
 	if (PCSrc == 0)
 	begin
