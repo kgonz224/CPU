@@ -43,7 +43,6 @@ module InstructionFetch; // processor test bench template
 	end
 	else
 	begin
-		$display("\tBranchAddress: %64b", BranchAddress);
 		PC = BranchAddress;
 	end
   end
