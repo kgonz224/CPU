@@ -35,3 +35,4 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
 	oldBranchAddress = branchAddress;
 
   end
+endmodule
