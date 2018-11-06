@@ -1,9 +1,7 @@
 module alu_control (inst31_21, ALUOp, control_line);
 	input[10:0] inst31_21;
 	input[1:0] ALUOp;
-	output[3:0]control_line;
-  
-	wire [3:0] control_line;
+	output reg[3:0]control_line;
 	
 	always @ (*) begin 
 		if ( ALUOp == 00) begin // LDUR & STUR
