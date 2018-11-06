@@ -27,6 +27,7 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
 
   always
   begin
+	#1
 	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
 
 	if (MemWrite == 1)
