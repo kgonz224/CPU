@@ -25,7 +25,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	  ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite,
 	  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
 	
-  always@(Reg2Loc)
+  always@(*)
   begin
 	  #1
 	  $display("Opcode value: %32b \n", Instruction[31:0]);
