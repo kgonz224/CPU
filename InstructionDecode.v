@@ -8,7 +8,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
   input /*reg*/ [63:0] Address;
   output PCSrc;
   output [63:0] BranchAddress;
-  wire [63:0] Data1, Data2, signExtInstr, BranchAddress;
+  reg [63:0] Data1, Data2, signExtInstr;
   wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc; 
   wire [1:0] ALUOp, ALUSrc;
 
