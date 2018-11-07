@@ -12,7 +12,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 	
 	
 	always @ (inst31_21) begin 
-		$display("\tCPU Control opcode: %11b \n", inst31_21);
+
 		if 		(inst31_21 == 11'b11111000010) begin //LDUR 
 				Reg2Loc <= 0; // ??
 				Branch <= 0;
