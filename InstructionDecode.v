@@ -25,7 +25,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	  ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite,
 	  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
 	
-  always@(*)
+always@(Instruction)
   begin
 	  #1
 	  Data1 = Regs[Instruction[9:5]];
@@ -50,7 +50,6 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 		  signExtInstr[9:0] = Instruction[20:11];
 		  signExtInstr[63:10] = {54{Instruction[20]}};
 	  end
-	  $display("\tsignExtInstr: %64b ", signExtInstr);
 
   end
   always @(OldRegWrite)
