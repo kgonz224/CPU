@@ -25,11 +25,10 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
   WriteBack wb(Instruction[4:0], loadedData, Results, MemToReg, RegWrite,
 	  Data2Write, Reg2Write, oldRegWrite);
 
-  always @(*)
+always @(Instruction)
   begin
-	#1
+	#5
 	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
-	  $display("PCSrc: %1b, Zero: %1b, B: %1b, BZ: %1b, BNZ: %1b\n", PCSrc, zero, B, BZ, BNZ);
 	  
 	if (MemWrite == 1)
 		DMem[Results] = Data2;
