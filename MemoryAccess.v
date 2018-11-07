@@ -29,7 +29,7 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
   begin
 	#1
 	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
-	  $display("PCSrc: %1b, Zero: %1b, B: %1b, BZ: %1b, BNZ: %1b", PCSrc, zero, B, BZ, BNZ);
+	  $display("PCSrc: %1b, Zero: %1b, B: %1b, BZ: %1b, BNZ: %1b\n", PCSrc, zero, B, BZ, BNZ);
 	  
 	if (MemWrite == 1)
 		DMem[Results] = Data2;
