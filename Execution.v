@@ -12,6 +12,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
   reg [63:0] ALUInput2, branchAddress, Results;
   reg [3:0] ALUInstr;
   reg zero;
+  reg [63:0] BOffset; 
   output wire [4:0] Reg2Write;
   output wire PCSrc, oldRegWrite;
   output wire [63:0] oldBranchAddress, Data2Write;
@@ -25,8 +26,19 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	always @(ALUInst)
   begin
 	#1
-	branchAddress = Address + (signExtInstr << 2);
-
+	if (B)
+	begin
+		BOffset[25:0] = Instruction[25:0];
+		BOffset[63:26] = {38{Instruction[25]}} << 2
+		branchAddress = Address + (BOffset);
+	end
+	else if (BZ | BNZ)
+	begin
+		BOffset[18:0] = Instruction[23:5];
+		BOffset[63:19] = {45{Instruction[23]}} << 2
+		branchAddress = Address + (BOffset);
+	end
+		
 	case(ALUSrc)
 		2'b00: ALUInput2 = Data2;
 		2'b01: ALUInput2 = signExtInstr;
