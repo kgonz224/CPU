@@ -12,7 +12,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
   reg [63:0] ALUInput2, branchAddress, Results;
   reg [3:0] ALUInstr;
   reg zero;
-  reg [63:0] BOffset; 
+  //reg [63:0] BOffset; 
   output wire [4:0] Reg2Write;
   output wire PCSrc, oldRegWrite;
   output wire [63:0] oldBranchAddress, Data2Write;
