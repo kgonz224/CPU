@@ -1,3 +1,5 @@
 #File types to ignore
 
+*.vcd
+*.vvp
 *.swp
