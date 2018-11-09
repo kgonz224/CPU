@@ -5,28 +5,28 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write,
 	Reg2Write, oldRegWrite, oldBranchAddress, PCSrc);
 
-  input reg [1:0]] ALUSrc, ALUOp;
-  input reg B, BZ, BNZ, MemWrite, MemtoReg, RegWrite;
-  input reg [31:0] Instruction;
-  input reg [63:0] Address, signExtInstr;
-  output wire oldRegWrite, PCSrc;
+  input /*reg*/ [1:0] ALUSrc, ALUOp;
+  input /*reg*/ B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite;
+  input /*reg*/ [31:0] Instruction;
+  input /*reg*/ [63:0] Address, signExtInstr, Data1, Data2;
+  reg [63:0] ALUInput2, branchAddress, Results;
+  reg [3:0] ALUInstr;
+  reg zero;
   output wire [4:0] Reg2Write;
+  output wire PCSrc, oldRegWrite;
   output wire [63:0] oldBranchAddress, Data2Write;
-  wire [63:0] ALUInput2, branchAddress, Results;
-  wire [3:0] ALUInstr;
-  wire zero;
 
   MemoryAccess mem(Instruction, branchAddress, Results, Data2, zero, B, BZ,
 	BNZ, MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
 	oldRegWrite, Data2Write, Reg2Write);
 
-  ALUControl aluControl(Instruction[31:21], ALUOp, ALUInst);
+  alu_control aluControl(Instruction[31:21], ALUOp, ALUInst);
 
-  always
+	always @(ALUInst)
   begin
-
+	#1
 	branchAddress = Address + (signExtInstr << 2);
-
+	
 	case(ALUSrc)
 		2'b00: ALUInput2 = Data2;
 		2'b01: ALUInput2 = signExtInstr;
@@ -52,4 +52,4 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	else
 		zero = 0;
   end
-end
+endmodule
