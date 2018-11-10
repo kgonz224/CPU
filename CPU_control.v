@@ -143,7 +143,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUSrc <= 2'b00;
 				RegWrite <= 0;
 			end 
-			11'b11111111111 //HALT
+			11'b11111111111: //HALT
 			begin
 				Reg2Loc <= 0;
 				Branch <= 0;
