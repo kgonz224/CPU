@@ -21,12 +21,11 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	oldRegWrite, Data2Write, Reg2Write);
 
   alu_control aluControl(Instruction[31:21], ALUOp, ALUInst);
-
-	always @(ALUInst)
+  always @(ALUInst)
   begin
 	#1
 	branchAddress = Address + (signExtInstr << 2);
-	
+	  $display("\t%4 \n", ALUSrc);
 	case(ALUSrc)
 		2'b00: ALUInput2 = Data2;
 		2'b01: ALUInput2 = signExtInstr;
@@ -45,7 +44,6 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 		default: $display("You messed up. ALUControl sent invalid ",
 		       	"Instr.\n");
 	endcase
-
 
 	if (Results == 0)
 		zero = 1;
