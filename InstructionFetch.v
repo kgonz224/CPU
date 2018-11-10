@@ -25,7 +25,6 @@ module InstructionFetch; // processor test bench template
 
   always //sequential logic of fetch for illustration
   begin
-	#1
 	// this code block can be performed in any other module
 	// concatenate four bytes of IMem into PC
 	  instruction[7:0] <= IMem[PC];
