@@ -25,7 +25,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
   begin
 	#1
 	branchAddress = Address + (signExtInstr << 2);
-	  $display("\t%4 \n", ALUInst);
+	  $display("\t%4b \n", ALUInst);
 	case(ALUSrc)
 		2'b00: ALUInput2 = Data2;
 		2'b01: ALUInput2 = signExtInstr;
