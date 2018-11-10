@@ -160,8 +160,3 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 		endcase
 	end 
 endmodule
-
-
-
-
- 
