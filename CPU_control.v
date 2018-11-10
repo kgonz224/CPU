@@ -12,8 +12,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 	
 	
 	always @ (inst31_21) begin 
-
-		if 		(inst31_21 == 11'b11111000010) begin //LDUR 
+		case(inst31_21)
+			11'b11111000010: //LDUR
+			begin
 				Reg2Loc <= 0; // ??
 				Branch <= 0;
 				BranchZero <= 0;
@@ -24,8 +25,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b01;
 				RegWrite <= 1;
-		end
-		else if (inst31_21 == 11'b11111000000) begin //STUR 
+			end
+			11'b11111000000: //STUR 
+			begin
 				Reg2Loc <= 1;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -36,8 +38,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 1;
 				ALUSrc <= 2'b01;
 				RegWrite <= 0;
-		end
-		else if (inst31_21 == 11'b10001011000) begin //ADD 
+			end
+			11'b10001011000: //ADD
+			begin
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -48,8 +51,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
-		end
-		else if (inst31_21[10:1] == 11'b1001000100) begin //ADDI 
+			end
+			11'b1001000100: //ADDI
+			begin
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -60,8 +64,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b10;
 				RegWrite <= 1;
-		end
-		else if (inst31_21 == 11'b11001011000) begin //SUB
+			end
+			11'b11001011000: //SUB
+			begin
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -72,8 +77,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
-		end
-		else if (inst31_21 == 11'b10001010000) begin //AND
+			end
+			11'b10001010000: //AND
+			begin
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -84,8 +90,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
-		end
-		else if (inst31_21 == 11'b10101010000 ) begin //ORR
+			end
+			11'b10101010000: //ORR
+			begin
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -96,8 +103,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 1;
-		end 
-		else if (inst31_21[10:3] == 11'b10110100 ) begin //CBZ
+			end
+			11'b10110100xxx: //CBZ
+			begin
 				Reg2Loc <= 1;
 				Branch <= 0;
 				BranchZero <= 1;
@@ -108,8 +116,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 0;
-		end 
-		else if (inst31_21[10:3] == 11'b10110101 ) begin //CBNZ
+			end 
+			11'b10110101xxx: //CBNZ
+			begin
 				Reg2Loc <= 1;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -120,8 +129,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 0;
-		end 
-		else if (inst31_21[10:5] == 11'b000101 ) begin //B
+			end
+			11'b000101xxxxx: //B 
+			begin
 				Reg2Loc <= 0;
 				Branch <= 1;
 				BranchZero <= 0;
@@ -132,8 +142,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 0;
-		end 
-		else if (inst31_21 == 11'b11111111111 ) begin //HALT
+			end 
+			11'b11111111111 //HALT
+			begin
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
@@ -144,10 +155,9 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 0;
 				ALUSrc <= 2'b00;
 				RegWrite <= 0;
-		end 
-		else begin
-			$display("You messed up. Invalid opcode sent.\n");		
-        	end	
+			end 
+			default: $display("You messed up. Invalid opcode sent.\n");		
+		endcase
 	end 
 endmodule
 
