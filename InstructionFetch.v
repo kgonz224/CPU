@@ -25,13 +25,12 @@ module InstructionFetch; // processor test bench template
 
   always //sequential logic of fetch for illustration
   begin
-	#1
 	// this code block can be performed in any other module
 	// concatenate four bytes of IMem into PC
-	  instruction[7:0] = IMem[PC];
-	  instruction[15:8] = IMem[PC + 1];
-	  instruction[23:16] = IMem[PC + 2];
-	  instruction[31:24] = IMem[PC + 3];
+	  instruction[7:0] <= IMem[PC];
+	  instruction[15:8] <= IMem[PC + 1];
+	  instruction[23:16] <= IMem[PC + 2];
+	  instruction[31:24] <= IMem[PC + 3];
 	  $display("Opcode value: %32b \n", instruction[31:0]);
 	  #10
 	if (PCSrc == 0)
