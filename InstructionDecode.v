@@ -11,7 +11,6 @@ module InstructionDecode(InstructionI, AddressI, PCSrc, BranchAddress);
   reg [63:0] Address, Data1, Data2, signExtInstr;
   reg [31:0] Instruction;
   wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc;
-  reg [11:0] Opcode;
   wire [1:0] ALUOp, ALUSrc;
 
   initial
@@ -19,7 +18,7 @@ module InstructionDecode(InstructionI, AddressI, PCSrc, BranchAddress);
 	Regs[31] = {64{1'b0}};
   end
 
-	cpu_control controlUnit(Opcode, Reg2Loc, B, BZ, BNZ,
+	cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
 	  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
 
   
@@ -35,9 +34,8 @@ always
 always@(Instruction)
   begin
 	  $display("ID%d\n", $time);
-	  Opcode <= Instruction[31:21];
 	  Data1 = Regs[Instruction[9:5]];
-	  #1
+	  #1	//Wait for Control unit
 	  
 	  if (Reg2Loc == 0)
 	          Data2 = Regs[Instruction[20:16]];
