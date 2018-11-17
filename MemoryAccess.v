@@ -27,7 +27,7 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
 
 always @(Instruction)
   begin
-	
+	#1
 	  $display("Mem %d\n", $time);
 	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
 	  
