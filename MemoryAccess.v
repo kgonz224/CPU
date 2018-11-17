@@ -27,7 +27,8 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
 
 always @(Instruction)
   begin
-	#5
+	
+	  $display("Mem %d\n", $time);
 	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
 	  
 	if (MemWrite == 1)
@@ -37,5 +38,6 @@ always @(Instruction)
 
 	oldBranchAddress = branchAddress;
 
+	  $display("Mem %d\n", $time);
   end
 endmodule
