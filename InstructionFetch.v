@@ -19,12 +19,18 @@ module InstructionFetch; // processor test bench template
 	$readmemh("IM_Bytes.txt", IMem);
 //	$readmemh("DM_Bytes.txt", DMem);
 	PC = 64'b0; // initialize PC
+//	First Instruction is NOP until instructions are loaded into PC
+	instruction[7:0] <= 8'b11010101;
+	instruction[15:8] <= 8'b00000011;
+	instruction[23:16] <= 8'b00100000;
+	instruction[31:24] <= 8'b00011111;
   end 
  
   InstructionDecode id(instruction, PC, PCSrc, BranchAddress);
 
   always //sequential logic of fetch for illustration
   begin
+	  $display("%d\n", $time);
 	// this code block can be performed in any other module
 	// concatenate four bytes of IMem into PC
 	  instruction[7:0] <= IMem[PC];
