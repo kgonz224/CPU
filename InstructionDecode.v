@@ -35,7 +35,7 @@ always
 always@(Instruction)
   begin
 	  $display("ID%d\n", $time);
-	  Opcode = Instruction[31:21];
+	  Opcode <= Instruction[31:21];
 	  Data1 = Regs[Instruction[9:5]];
 	  #1
 	  
