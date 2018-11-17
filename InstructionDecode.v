@@ -25,7 +25,8 @@ module InstructionDecode(InstructionI, AddressI, PCSrc, BranchAddress);
   Execution ex(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	  ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite,
 	  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
-always
+
+always@(*)
   begin
 	  #1
 	  Address = AddressI;
@@ -33,7 +34,7 @@ always
   end
 always@(Instruction)
   begin
-	  $display("ID%d\n", $time);
+
 	  Data1 = Regs[Instruction[9:5]];
 	  #1	//Wait for Control unit
 	  
