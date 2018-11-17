@@ -27,7 +27,7 @@ module InstructionDecode(Instruction, Address, PCSrc, BranchAddress);
 	
 always@(Instruction)
   begin
-	  $display("%d\n", $time);
+	  $display("ID%d\n", $time);
 	  Data1 = Regs[Instruction[9:5]];
 
 	  if (Reg2Loc == 0)
@@ -50,7 +50,6 @@ always@(Instruction)
 		  signExtInstr[9:0] = Instruction[20:11];
 		  signExtInstr[63:10] = {54{Instruction[20]}};
 	  end
-	  $display("%d\n", $time);
 
   end
   always @(OldRegWrite)
