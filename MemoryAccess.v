@@ -1,15 +1,17 @@
 `include "WriteBack.v"
 
-module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
-  	BNZ, MemRead, MemWrite, MemToReg, RegWrite, oldBranchAddress, PCSrc,
+module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, BZI,
+  	BNZI, MemReadI, MemWriteI, MemToRegI, RegWriteI, oldBranchAddress, PCSrc,
 	oldRegWrite, Data2Write, Reg2Write);
 
-  input /*reg*/ zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite;
-  input /*reg*/ [63:0] branchAddress, Results, Data2;
-  input /*reg*/ [31:0] Instruction;
+  input /*reg*/ zeroI, BI, BZI, BNZI, MemReadI, MemWriteI, MemToRegI, RegWriteI;
+  input /*reg*/ [63:0] branchAddressI, ResultsI, Data2I;
+  input /*reg*/ [31:0] InstructionI;
+  reg zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite;
+  reg [63:0] branchAddress, Results, Data2, loadedData;
+  reg [31:0] Instruction;
   output reg PCSrc;
   output reg [63:0] oldBranchAddress;
-  reg [63:0] loadedData;
   output wire oldRegWrite;
   output wire [4:0] Reg2Write;
   output wire [63:0] Data2Write;
@@ -25,10 +27,23 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
   WriteBack wb(Instruction[4:0], loadedData, Results, MemToReg, RegWrite,
 	  Data2Write, Reg2Write, oldRegWrite);
 
-always @(Instruction)
+  always
   begin
 	#1
-	  $display("Mem %d\n", $time);
+	branchAddress = branchAddressI;
+	Results = ResultsI;
+	Data2 = Data2I;
+	zero = zeroI;
+	B = BI;
+	BZ = BZI;
+  	BNZ = BNZI;
+	MemRead = MemReadI;
+	MemWrite = MemWriteI;
+	MemtoReg = MemToRegI;
+	RegWrite = RegWriteI;	
+  end
+  always @(Instruction)
+  begin
 	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
 	  
 	if (MemWrite == 1)
@@ -37,7 +52,5 @@ always @(Instruction)
 		loadedData = DMem[Results];
 
 	oldBranchAddress = branchAddress;
-
-	  $display("Mem %d\n", $time);
   end
 endmodule
