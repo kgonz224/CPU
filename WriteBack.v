@@ -10,7 +10,7 @@ module WriteBack(Reg, loadedData, Results, MemToReg, RegWrite,
 
   always @(*)
   begin
-	  
+	  #1
 	  $display("WB %d\n", $time);
 	  oldRegWrite <= RegWrite;
 	  Reg2Write <= Reg;
