@@ -1,17 +1,27 @@
-module WriteBack(Reg, loadedData, Results, MemToReg, RegWrite,
+module WriteBack(RegI, loadedDataI, ResultsI, MemToRegI, RegWriteI,
 	  Data2Write, Reg2Write, oldRegWrite);
 
-  input /*reg*/ [4:0] Reg;
-  input /*reg*/ [63:0] loadedData, Results;
-  input /*reg*/ MemToReg, RegWrite;
+  input [4:0] RegI;
+  input [63:0] loadedDataI, ResultsI;
+  input MemToRegI, RegWriteI;
+  reg [4:0] Reg;
+  reg [63:0] loadedData, Results;
+  reg MemToReg, RegWrite;
   output reg [63:0] Data2Write;
   output reg [4:0] Reg2Write;
   output reg oldRegWrite;
 
-  always @(*)
+  always
   begin
-	  #1
-	  $display("WB %d\n", $time);
+	#1
+	Reg = RegI;
+	loadedData = loadedDataI;
+	Results = ResultsI;
+	MemToReg = MemToRegI;
+	RegWrite = RegWriteI;  
+  end
+  always @(RegWrite)
+  begin
 	  oldRegWrite <= RegWrite;
 	  Reg2Write <= Reg;
 
@@ -19,7 +29,5 @@ module WriteBack(Reg, loadedData, Results, MemToReg, RegWrite,
 		  Data2Write = Results;
 	  else
 		  Data2Write = loadedData;
-	
-	  $display("WB %d\n", $time);
   end
 endmodule
