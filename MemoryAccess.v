@@ -8,7 +8,7 @@ module MemoryAccess(Instruction, branchAddress, Results, Data2, zero, B, BZ,
   input /*reg*/ [63:0] branchAddress, Results, Data2;
   input /*reg*/ [31:0] Instruction;
   output reg PCSrc;
-	output reg [63:0] oldBranchAddress;
+  output reg [63:0] oldBranchAddress;
   reg [63:0] loadedData;
   output wire oldRegWrite;
   output wire [4:0] Reg2Write;
