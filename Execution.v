@@ -1,17 +1,19 @@
 `include "ALU_control.v"
 `include "MemoryAccess.v"
 
-module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
-	ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite, Data2Write,
+module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
+	ALUOpI, BI, BZI, BNZI, MemWriteI, MemReadI, MemtoRegI, RegWriteI, Data2Write,
 	Reg2Write, oldRegWrite, oldBranchAddress, PCSrc);
 
-  input /*reg*/ [1:0] ALUSrc, ALUOp;
-  input /*reg*/ B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite;
-  input /*reg*/ [31:0] Instruction;
-  input /*reg*/ [63:0] Address, signExtInstr, Data1, Data2;
-  reg [63:0] ALUInput2, branchAddress, Results;
+  input /*reg*/ [1:0] ALUSrcI, ALUOpI;
+  input /*reg*/ BI, BZI, BNZI, MemWriteI, MemReadI, MemtoRegI, RegWriteI;
+  input /*reg*/ [31:0] InstructionI;
+  input /*reg*/ [63:0] AddressI, signExtInstrI, Data1I, Data2I;
+  reg [1:0] ALUSrc, ALUOp;
+  reg B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite, zero;
+  reg [31:0] Instruction;
+  reg [63:0] Address, signExtInstr, Data1, Data2, ALUInput2, branchAddress, Results;
   reg [3:0] ALUInstr;
-  reg zero;
   output wire [4:0] Reg2Write;
   output wire PCSrc, oldRegWrite;
   output wire [63:0] oldBranchAddress, Data2Write;
@@ -21,10 +23,29 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	oldRegWrite, Data2Write, Reg2Write);
 
   alu_control aluControl(Instruction[31:21], ALUOp, ALUInst);
-  always @(ALUInst)
+	
+  always
   begin
-	  #1
-	  $display("EX %d\n", $time);
+	#1
+	Address = AddressI;
+	signExtInstr = signExtInstrI;
+	Data1 = Data1I;
+	Data2 = Data2I;
+	ALUSrc = ALUSrcI;
+	ALUOp = ALUOpI; 
+	B = BI;
+	BZ = BZI;
+	BNZ = BNZI;
+	MemWrite = MemWriteI;
+	MemRead = MemReadI;
+	MemtoReg = MemtoRegI;
+	RegWrite = RegWriteI;
+	Instruction = InstructionI;
+  end
+
+  always @(Instruction)
+  begin
+
 	branchAddress = Address + (signExtInstr << 2);
 
 	case(ALUSrc)
@@ -50,7 +71,6 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 		zero = 1;
 	else
 		zero = 0;
-	  
-	  $display("EX %d\n", $time);
+
   end
 endmodule
