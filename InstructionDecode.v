@@ -11,7 +11,7 @@ module InstructionDecode(InstructionI, AddressI, PCSrc, BranchAddress);
   reg [63:0] Address, Data1, Data2, signExtInstr;
   reg [31:0] Instruction;
   wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc;
-  wire [11:0] Opcode;
+  reg [11:0] Opcode;
   wire [1:0] ALUOp, ALUSrc;
 
   initial
