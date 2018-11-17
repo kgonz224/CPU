@@ -23,7 +23,7 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
   alu_control aluControl(Instruction[31:21], ALUOp, ALUInst);
   always @(ALUInst)
   begin
-	  $display("%d\n", $time);
+	  $display("EX %d\n", $time);
 	branchAddress = Address + (signExtInstr << 2);
 
 	case(ALUSrc)
@@ -50,6 +50,6 @@ module Execution(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
 	else
 		zero = 0;
 	  
-	  $display("%d\n", $time);
+	  $display("EX %d\n", $time);
   end
 endmodule
