@@ -41,11 +41,11 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 	MemWrite = MemWriteI;
 	MemtoReg = MemToRegI;
 	RegWrite = RegWriteI;
-	#3
+	#3;
   end
   always @(Instruction)
   begin
-	PCSrc = B | (BZ & zero) | (BNZ & ~zero);
+	PCSrc <= B | (BZ & zero) | (BNZ & ~zero);
 	  
 	if (MemWrite == 1)
 		DMem[Results] = Data2;
