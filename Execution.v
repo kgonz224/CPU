@@ -41,13 +41,13 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 	MemtoReg = MemtoRegI;
 	RegWrite = RegWriteI;
 	Instruction = InstructionI;
-	#5
+	#5;
   end
 
   always @(Instruction)
   begin
 
-	branchAddress = Address + (signExtInstr << 2);
+	branchAddress <= Address + (signExtInstr << 2);
 
 	case(ALUSrc)
 		2'b00: ALUInput2 = Data2;
