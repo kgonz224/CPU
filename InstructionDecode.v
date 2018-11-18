@@ -38,9 +38,9 @@ always@(Instruction)
   begin
 
 	  Data1 <= Regs[Instruction[9:5]];
-	  $display("\tID BCU %b%d", Instruction[31:21], $time);
+	  $display("\tIDBCU %b%d", Instruction[31:21], $time);
 	  #1	//Wait for Control unit
-	  $display("\tID ACU %b%d", Instruction[31:21], $time);
+	  $display("\tIDACU %b%d", Instruction[31:21], $time);
 	  if (Reg2Loc == 0)
 	          Data2 = Regs[Instruction[20:16]];
 	  else
