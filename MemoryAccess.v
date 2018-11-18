@@ -29,7 +29,7 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 
   always
   begin
-	#1
+	#3
 	branchAddress = branchAddressI;
 	Results = ResultsI;
 	Data2 = Data2I;
@@ -40,7 +40,8 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 	MemRead = MemReadI;
 	MemWrite = MemWriteI;
 	MemtoReg = MemToRegI;
-	RegWrite = RegWriteI;	
+	RegWrite = RegWriteI;
+	#2
   end
   always @(Instruction)
   begin
