@@ -62,6 +62,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 			end
 			11'b11001011000: //SUB
 			begin
+				$display("Hi\n");
 				Reg2Loc <= 0;
 				Branch <= 0;
 				BranchZero <= 0;
