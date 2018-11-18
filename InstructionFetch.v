@@ -46,7 +46,7 @@ module InstructionFetch; // processor test bench template
 	begin
 		PC = BranchAddress;
 	end
-	#2
+	#5
   end
 
   // output data memory to a file when HALT instruction is fetched
