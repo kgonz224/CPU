@@ -22,6 +22,7 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
   initial // load  data memory
   begin 
 	$readmemh("DM_Bytes.txt", DMem);
+	PCSrc = 1'b0;
   end
 
   WriteBack wb(Instruction[4:0], loadedData, Results, MemToReg, RegWrite,
