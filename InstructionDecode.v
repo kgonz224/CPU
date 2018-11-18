@@ -31,12 +31,12 @@ always@(*)
 	  #1
 	  Address = AddressI;
 	  Instruction = InstructionI;
-	  #7
+	  #7;
   end
 always@(Instruction)
   begin
 
-	  Data1 = Regs[Instruction[9:5]];
+	  Data1 <= Regs[Instruction[9:5]];
 	  #1	//Wait for Control unit
 	  
 	  if (Reg2Loc == 0)
