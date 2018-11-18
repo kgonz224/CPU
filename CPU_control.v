@@ -6,11 +6,6 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 	output reg Reg2Loc, Branch, BranchZero, BranchNonZero, MemRead, MemtoReg;
     	output reg MemWrite, RegWrite;
 	
-	/*wire [1:0] ALUOp, ALUSrc;
-	wire Reg2Loc, Branch, BranchZero, BranchNonZero, MemRead, MemtoReg;
-	wire MemWrite, RegWrite;*/
-	
-	
 	always @ (inst31_21) begin 
 		case(inst31_21)
 			11'b11111000010: //LDUR
