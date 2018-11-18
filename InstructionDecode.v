@@ -16,6 +16,7 @@ module InstructionDecode(InstructionI, AddressI, PCSrc, BranchAddress);
   initial
   begin
 	Regs[31] = {64{1'b0}};
+	  Instruction = {32{1'b0}};
   end
 
 	cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
