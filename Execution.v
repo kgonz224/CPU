@@ -26,7 +26,7 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 	
   always
   begin
-	#2
+	#4
 	Address = AddressI;
 	signExtInstr = signExtInstrI;
 	Data1 = Data1I;
@@ -41,7 +41,7 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 	MemtoReg = MemtoRegI;
 	RegWrite = RegWriteI;
 	Instruction = InstructionI;
-	#3
+	#4
   end
 
   always @(Instruction)
@@ -56,7 +56,7 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 		default: $display("You messed up. ALUSrc sent invalid ",
 			"Instr.\n");
 	endcase
-
+	#1 //Wait for ALU control
 	case(ALUInst)
 		4'b0000: Results = Data1 & ALUInput2;
 		4'b0001: Results = Data1 | ALUInput2;
