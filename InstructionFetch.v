@@ -54,6 +54,7 @@ module InstructionFetch; // processor test bench template
   begin
 	if (instruction[31:21] == {11{1'b1}})
 	begin
+		#8
 		$display("Opcode value: %32b \n", instruction[31:0]);
 		$display("final opcode is detected \n");
 //		$writememh("DM_Final_Bytes.txt", DMem);
