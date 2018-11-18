@@ -3,8 +3,7 @@ module alu_control (inst31_21, ALUOp, control_line);
 	input[1:0] ALUOp;
 	output reg[3:0]control_line;
 	
-	always @(inst31_21) begin 
-		#1
+	always @(inst31_21 & ALUOp) begin 
 		case(ALUOp)
 			2'b00: // LDUR & STUR
 				control_line[3:0] <= 4'b0010;
