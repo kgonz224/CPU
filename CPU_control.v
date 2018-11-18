@@ -7,6 +7,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
     	output reg MemWrite, RegWrite;
 	
 	always @ (inst31_21) begin 
+		$display("\tOh\n");
 		case(inst31_21)
 			11'b11111000010: //LDUR
 			begin
