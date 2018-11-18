@@ -37,15 +37,16 @@ module InstructionFetch; // processor test bench template
 	  instruction[23:16] <= IMem[PC + 2];
 	  instruction[31:24] <= IMem[PC + 3];
 	  $display("Opcode value: %32b %d\n", instruction[31:0], $time);
-	  #10
+	  
 	if (PCSrc == 0)
 	begin
 		PC = PC + 4; // PC needs to be updated in the processor/datapath module
 	end
-	else
+	if (PCSrc == 1)
 	begin
 		PC = BranchAddress;
 	end
+	#2
   end
 
   // output data memory to a file when HALT instruction is fetched
