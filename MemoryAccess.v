@@ -39,7 +39,7 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
   	BNZ = BNZI;
 	MemRead = MemReadI;
 	MemWrite = MemWriteI;
-	MemtoReg = MemToRegI;
+	MemToReg = MemToRegI;
 	RegWrite = RegWriteI;
 	#3;
   end
