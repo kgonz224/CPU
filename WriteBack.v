@@ -19,11 +19,11 @@ module WriteBack(RegI, loadedDataI, ResultsI, MemToRegI, RegWriteI,
 	Results = ResultsI;
 	MemToReg = MemToRegI;
 	RegWrite = RegWriteI;  
-	#2
+	#2;
   end
   always @(RegWrite)
   begin
-	  oldRegWrite <= RegWrite;
+	  oldRegWrite = RegWrite;
 	  Reg2Write <= Reg;
 
 	  if (MemToReg == 0)
