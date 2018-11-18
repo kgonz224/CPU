@@ -26,7 +26,7 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 	
   always
   begin
-	#4
+	#3
 	Address = AddressI;
 	signExtInstr = signExtInstrI;
 	Data1 = Data1I;
@@ -41,7 +41,7 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 	MemtoReg = MemtoRegI;
 	RegWrite = RegWriteI;
 	Instruction = InstructionI;
-	#4
+	#5
   end
 
   always @(Instruction)
