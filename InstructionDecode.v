@@ -31,6 +31,7 @@ always@(*)
 	  #1
 	  Address = AddressI;
 	  Instruction = InstructionI;
+	  #1
   end
 always@(Instruction)
   begin
