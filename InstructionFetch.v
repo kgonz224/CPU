@@ -9,8 +9,8 @@
 module InstructionFetch; // processor test bench template
   reg [7:0] IMem[4095:0]; // 4096 bytes (1024 words)
 //  reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
-  reg [31:0] instruction; // all instructions are 32-bit wide
-  reg [63:0] PC; // PC contains 64-bit byte address
+  reg [31:0] instruction, instructionO; // all instructions are 32-bit wide
+  reg [63:0] PC, PCO; // PC contains 64-bit byte address
 	
   initial // load instruction memory and data memory
   begin 
@@ -21,11 +21,11 @@ module InstructionFetch; // processor test bench template
 	PC = 64'b0; // initialize PC
   end 
  
-  InstructionDecode id(instruction, PC, PCSrc, BranchAddress);
+  InstructionDecode id(instructionO, PCO, PCSrc, BranchAddress);
 
   always //sequential logic of fetch for illustration
   begin
-	  #1
+	 #1 
 	// this code block can be performed in any other module
 	// concatenate four bytes of IMem into PC
 	  instruction[7:0] <= IMem[PC];
@@ -42,7 +42,14 @@ module InstructionFetch; // processor test bench template
 	begin
 		PC = BranchAddress;
 	end
-	#7;
+	#2;
+  end
+
+  always
+  begin
+	#3
+	PCO = PC;
+	instructionO = instruction;
   end
 
   // output data memory to a file when HALT instruction is fetched
@@ -50,7 +57,7 @@ module InstructionFetch; // processor test bench template
   begin
 	if (instruction[31:21] == {11{1'b1}})
 	begin
-		#8
+		#16
 		$display("Opcode value: %32b \n", instruction[31:0]);
 		$display("final opcode is detected \n");
 //		$writememh("DM_Final_Bytes.txt", DMem);

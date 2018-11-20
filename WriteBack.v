@@ -13,7 +13,7 @@ module WriteBack(RegI, loadedDataI, ResultsI, MemToRegI, RegWriteI,
 
   always
   begin
-	#6
+	#1
 	Reg = RegI;
 	loadedData = loadedDataI;
 	Results = ResultsI;

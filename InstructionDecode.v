@@ -8,23 +8,26 @@ module InstructionDecode(InstructionI, AddressI, PCSrc, BranchAddress);
   input [63:0] AddressI;
   output PCSrc;
   output [63:0] BranchAddress;
-  reg [63:0] Address, Data1, Data2, signExtInstr;
-  reg [31:0] Instruction;
+  reg [63:0] Address, Data1, Data2, signExtInstr, AddressO, Data1O, Data2O,
+	  signExtInstrO;
+  reg [31:0] Instruction, InstructionO;
+  reg RegWriteO, BO, BZO, BNZO, MemReadO, MemWriteO, MemtoRegO;
   wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc;
   wire [1:0] ALUOp, ALUSrc;
+  reg [1:0] ALUOpO, ALUSrcO;
 
   initial
   begin
 	Regs[31] = {64{1'b0}};
-	  Instruction = {32{1'b0}};
+	Instruction = {32{1'b0}};
   end
 
-	cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
+  cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
 	  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
 
   
-  Execution ex(Address, Instruction, signExtInstr, Data1, Data2, ALUSrc,
-	  ALUOp, B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite,
+  Execution ex(AddressO, InstructionO, signExtInstrO, Data1O, Data2O, ALUSrcO,
+	  ALUOpO, BO, BZO, BNZO, MemWriteO, MemReadO, MemtoRegO, RegWriteO,
 	  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
 
 always
@@ -32,15 +35,14 @@ always
 	  #1
 	  Address = AddressI;
 	  Instruction = InstructionI;
-	  #7;
+	  #2;
   end
+
 always@(Instruction)
   begin
-
+	  $display("IDcode value: %32b %d\n", Instruction[31:0], $time);
 	  Data1 <= Regs[Instruction[9:5]];
-	  $display("\tIDBCU %b%d", Instruction[31:21], $time);
-	  #1	//Wait for Control unit
-	  $display("\tIDACU %b%d", Instruction[31:21], $time);
+	  #1
 	  if (Reg2Loc == 0)
 	          Data2 = Regs[Instruction[20:16]];
 	  else
@@ -63,10 +65,29 @@ always@(Instruction)
 	  end
 
   end
+
+  always
+  begin
+	#3
+  	AddressO = Address;
+        Data1O = Data1;
+       	Data2O = Data2;
+       	signExtInstrO = signExtInstr;
+	ALUSrcO = ALUSrc;
+	ALUOpO = ALUOp;
+       	RegWriteO = RegWrite;
+       	BO = B; 
+	BZO = BZ;
+	BNZO = BNZ;
+       	MemReadO = MemRead;
+	MemWriteO = MemWrite;
+       	MemtoRegO = MemtoReg;
+        InstructionO = InstructionO;
+  end
+
   always @(OldRegWrite)
   begin
 	Regs[Reg2Write] = Data2Write;
   end
 endmodule
-
 

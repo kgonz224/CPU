@@ -7,9 +7,10 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
   input /*reg*/ zeroI, BI, BZI, BNZI, MemReadI, MemWriteI, MemToRegI, RegWriteI;
   input /*reg*/ [63:0] branchAddressI, ResultsI, Data2I;
   input /*reg*/ [31:0] InstructionI;
-  reg zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite;
-  reg [63:0] branchAddress, Results, Data2, loadedData;
+  reg zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite, MemToRegO, RegWriteO;
+  reg [63:0] branchAddress, Results, Data2, loadedData, ResultsO, loadedDataO;
   reg [31:0] Instruction;
+  reg [4:0] InstructionO;
   output reg PCSrc;
   output reg [63:0] oldBranchAddress;
   output wire oldRegWrite;
@@ -25,12 +26,12 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 	PCSrc = 1'b0;
   end
 
-  WriteBack wb(Instruction[4:0], loadedData, Results, MemToReg, RegWrite,
+  WriteBack wb(InstructionO, loadedDataO, ResultsO, MemToRegO, RegWriteO,
 	  Data2Write, Reg2Write, oldRegWrite);
 
   always
   begin
-	#5
+	#1
 	branchAddress = branchAddressI;
 	Results = ResultsI;
 	Data2 = Data2I;
@@ -42,10 +43,12 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 	MemWrite = MemWriteI;
 	MemToReg = MemToRegI;
 	RegWrite = RegWriteI;
-	#3;
+	#2;
   end
   always @(Instruction)
   begin
+        $display("MEMode value: %32b %d\n", Instruction[31:0], $time);
+
 	PCSrc <= B | (BZ & zero) | (BNZ & ~zero);
 	  
 	if (MemWrite == 1)
@@ -54,5 +57,15 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 		loadedData = DMem[Results];
 
 	oldBranchAddress = branchAddress;
+  end
+
+  always
+  begin
+	#3
+	InstructionO = Instruction[4:0];
+	loadedDataO = loadedData;
+	ResultsO = Results;
+	MemToRegO = MemToReg;
+	RegWriteO = RegWrite;
   end
 endmodule
