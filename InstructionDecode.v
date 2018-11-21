@@ -1,48 +1,62 @@
 `include "Execution.v"
 `include "CPU_control.v"
 
-module InstructionDecode(InstructionI, AddressI, PCSrc, BranchAddress);
+module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
 
+  input [95:0] inBuf;
+  input clk;
+  reg [31:0] Instruction;
+  reg [63:0] Address;
   reg [63:0] Regs [31:0]; // 32 double words
-  input [31:0] InstructionI;
-  input [63:0] AddressI;
   output PCSrc;
   output [63:0] BranchAddress;
-  reg [63:0] Address, Data1, Data2, signExtInstr, AddressO, Data1O, Data2O,
-	  signExtInstrO;
-  reg [31:0] Instruction, InstructionO;
-  reg RegWriteO, BO, BZO, BNZO, MemReadO, MemWriteO, MemtoRegO;
+  reg [63:0] Data1, Data2, signExtInstr;
   wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc;
   wire [1:0] ALUOp, ALUSrc;
-  reg [1:0] ALUOpO, ALUSrcO;
+  reg [298:0] outBuf;
 
   initial
   begin
 	Regs[31] = {64{1'b0}};
-	Instruction = {32{1'b0}};
+
   end
 
   cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
 	  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
 
   
-  Execution ex(AddressO, InstructionO, signExtInstrO, Data1O, Data2O, ALUSrcO,
-	  ALUOpO, BO, BZO, BNZO, MemWriteO, MemReadO, MemtoRegO, RegWriteO,
-	  Data2Write, Reg2Write, OldRegWrite, BranchAddress, PCSrc);
+  Execution ex(outBuf, Data2Write, Reg2Write, OldRegWrite, BranchAddress,
+	  PCSrc, clk);
 
-always
+  always@(posedge clk)
   begin
-	  #1
-	  Address = AddressI;
-	  Instruction = InstructionI;
-	  #2;
+	Address <= inBuf[95:32];
+        Instruction = inBuf[31:0];
   end
 
-always@(Instruction)
+  always@(negedge clk)
+  begin
+	outBuf[63:0] <= Address;
+	outBuf[95:64] <= Instruction;
+	outBuf[159:96] <= signExtInstr;
+	outBuf[223:160] <= Data1;
+        outBuf[287:224] <= Data2;
+        outBuf[289:288] <= ALUSrc;
+        outBuf[291:290] <= ALUOp;
+        outBuf[192] <= B;
+        outBuf[193] <= BZ;
+        outBuf[194] <= BNZ;
+        outBuf[195] <= MemWrite;
+        outBuf[196] <= MemRead;
+        outBuf[197] <= MemtoReg;
+	outBuf[198] <= RegWrite;
+  end
+
+  always@(Instruction)
   begin
 	  $display("IDcode value: %32b %d\n", Instruction[31:0], $time);
 	  Data1 <= Regs[Instruction[9:5]];
-	  #1
+ 	  #40
 	  if (Reg2Loc == 0)
 	          Data2 = Regs[Instruction[20:16]];
 	  else
@@ -64,25 +78,6 @@ always@(Instruction)
 		  signExtInstr[63:10] = {54{Instruction[20]}};
 	  end
 
-  end
-
-  always
-  begin
-	#3
-  	AddressO = Address;
-        Data1O = Data1;
-       	Data2O = Data2;
-       	signExtInstrO = signExtInstr;
-	ALUSrcO = ALUSrc;
-	ALUOpO = ALUOp;
-       	RegWriteO = RegWrite;
-       	BO = B; 
-	BZO = BZ;
-	BNZO = BNZ;
-       	MemReadO = MemRead;
-	MemWriteO = MemWrite;
-       	MemtoRegO = MemtoReg;
-        InstructionO = InstructionO;
   end
 
   always @(OldRegWrite)

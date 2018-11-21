@@ -1,21 +1,20 @@
 `include "WriteBack.v"
 
-module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, BZI,
-  	BNZI, MemReadI, MemWriteI, MemToRegI, RegWriteI, oldBranchAddress, PCSrc,
-	oldRegWrite, Data2Write, Reg2Write);
+module MemoryAccess(inBuf, oldBranchAddress, PCSrc,
+	oldRegWrite, Data2Write, Reg2Write, clk);
 
-  input /*reg*/ zeroI, BI, BZI, BNZI, MemReadI, MemWriteI, MemToRegI, RegWriteI;
-  input /*reg*/ [63:0] branchAddressI, ResultsI, Data2I;
-  input /*reg*/ [31:0] InstructionI;
-  reg zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite, MemToRegO, RegWriteO;
-  reg [63:0] branchAddress, Results, Data2, loadedData, ResultsO, loadedDataO;
+  input [231:0] inBuf;
+  input clk;
+  reg zero, B, BZ, BNZ, MemRead, MemWrite, MemToReg, RegWrite;
+  reg [63:0] branchAddress, Results, Data2;
   reg [31:0] Instruction;
-  reg [4:0] InstructionO;
   output reg PCSrc;
   output reg [63:0] oldBranchAddress;
   output wire oldRegWrite;
   output wire [4:0] Reg2Write;
   output wire [63:0] Data2Write;
+  reg [63:0] loadedData;
+  reg [134:0] outBuf;
 
   reg [7:0] DMem[8191:0]; // 8192 bytes (1024 double words)
 
@@ -26,25 +25,33 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 	PCSrc = 1'b0;
   end
 
-  WriteBack wb(InstructionO, loadedDataO, ResultsO, MemToRegO, RegWriteO,
-	  Data2Write, Reg2Write, oldRegWrite);
+  WriteBack wb(outBuf, Data2Write, Reg2Write, oldRegWrite, clk);
 
-  always
+  always@(posedge clk)
   begin
-	#1
-	branchAddress = branchAddressI;
-	Results = ResultsI;
-	Data2 = Data2I;
-	zero = zeroI;
-	B = BI;
-	BZ = BZI;
-  	BNZ = BNZI;
-	MemRead = MemReadI;
-	MemWrite = MemWriteI;
-	MemToReg = MemToRegI;
-	RegWrite = RegWriteI;
-	#2;
+        branchAddress <= inBuf[95:32];
+        Results <= inBuf[159:96];
+        Data2 <= inBuf[223:160];
+        zero <= inBuf[224];
+        B <= inBuf[225];
+        BZ <= inBuf[226];
+        BNZ <= inBuf[227];
+        MemWrite <= inBuf[229];
+        MemRead <= inBuf[228];
+        MemToReg <= inBuf[230];
+        RegWrite <= inBuf[231];
+        Instruction = inBuf[31:0];
   end
+
+  always@(negedge clk)
+  begin
+        outBuf[4:0] <= Instruction[4:0];
+        outBuf[68:5] <= loadedData;
+        outBuf[132:69] <= Results;
+        outBuf[133] <= MemToReg;
+        outBuf[134] <= RegWrite;
+  end
+
   always @(Instruction)
   begin
         $display("MEMode value: %32b %d\n", Instruction[31:0], $time);
@@ -57,15 +64,5 @@ module MemoryAccess(InstructionI, branchAddressI, ResultsI, Data2I, zeroI, BI, B
 		loadedData = DMem[Results];
 
 	oldBranchAddress = branchAddress;
-  end
-
-  always
-  begin
-	#3
-	InstructionO = Instruction[4:0];
-	loadedDataO = loadedData;
-	ResultsO = Results;
-	MemToRegO = MemToReg;
-	RegWriteO = RegWrite;
   end
 endmodule

@@ -1,9 +1,7 @@
-module WriteBack(RegI, loadedDataI, ResultsI, MemToRegI, RegWriteI,
-	  Data2Write, Reg2Write, oldRegWrite);
+module WriteBack(inBuf, Data2Write, Reg2Write, oldRegWrite, clk);
 
-  input [4:0] RegI;
-  input [63:0] loadedDataI, ResultsI;
-  input MemToRegI, RegWriteI;
+  input [134:0] inBuf;
+  input clk;
   reg [4:0] Reg;
   reg [63:0] loadedData, Results;
   reg MemToReg, RegWrite;
@@ -11,16 +9,15 @@ module WriteBack(RegI, loadedDataI, ResultsI, MemToRegI, RegWriteI,
   output reg [4:0] Reg2Write;
   output reg oldRegWrite;
 
-  always
+  always@(posedge clk)
   begin
-	#1
-	Reg = RegI;
-	loadedData = loadedDataI;
-	Results = ResultsI;
-	MemToReg = MemToRegI;
-	RegWrite = RegWriteI;  
-	#2;
+        Reg <= inBuf[4:0];
+        loadedData <= inBuf[68:5];
+        Results <= inBuf[132:69];
+        MemToReg <= inBuf[133];
+        RegWrite = inBuf[134];
   end
+
   always @(RegWrite)
   begin
 	  oldRegWrite = RegWrite;

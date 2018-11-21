@@ -1,56 +1,66 @@
 `include "ALU_control.v"
 `include "MemoryAccess.v"
 
-module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
-	ALUOpI, BI, BZI, BNZI, MemWriteI, MemReadI, MemtoRegI, RegWriteI, Data2Write,
-	Reg2Write, oldRegWrite, oldBranchAddress, PCSrc);
+module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
+	PCSrc, clk);
 
-  input /*reg*/ [1:0] ALUSrcI, ALUOpI;
-  input /*reg*/ BI, BZI, BNZI, MemWriteI, MemReadI, MemtoRegI, RegWriteI;
-  input /*reg*/ [31:0] InstructionI;
-  input /*reg*/ [63:0] AddressI, signExtInstrI, Data1I, Data2I;
+  input [298:0] inBuf;
+  input clk;
   reg [1:0] ALUSrc, ALUOp;
-  reg B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite, zero, BO, BZO, BNZO, MemWriteO, 
-	  MemReadO, MemtoRegO, RegWriteO, zeroO;
-  reg [31:0] Instruction, InstructionO;
-  reg [63:0] Address, signExtInstr, Data1, Data2, ALUInput2, branchAddress, Results,
-  	 Data2O, branchAddressO, ResultsO;
-  reg [3:0] ALUInstr;
+  reg B, BZ, BNZ, MemWrite, MemRead, MemtoReg, RegWrite;
+  reg [31:0] Instruction;
+  reg [63:0] Address, signExtInstr, Data1, Data2;
   output wire [4:0] Reg2Write;
   output wire PCSrc, oldRegWrite;
   output wire [63:0] oldBranchAddress, Data2Write;
+  reg [63:0] branchAddress, Results, ALUInput2;
+  reg zero;
+  reg [231:0] outBuf;
 
-  MemoryAccess mem(InstructionO, branchAddressO, ResultsO, Data2O, zeroO, BO, BZO,
-	BNZO, MemReadO, MemWriteO, MemToRegO, RegWriteO, oldBranchAddress, PCSrc,
-	oldRegWrite, Data2Write, Reg2Write);
+  MemoryAccess mem(outBuf, oldBranchAddress, PCSrc,
+	oldRegWrite, Data2Write, Reg2Write, clk);
 
   alu_control aluControl(Instruction[31:21], ALUOp, ALUInst);
-	
-  always
+ 
+  always@(posedge clk)
   begin
-	#1
-	Address = AddressI;
-	signExtInstr = signExtInstrI;
-	Data1 = Data1I;
-	Data2 = Data2I;
-	ALUSrc = ALUSrcI;
-	ALUOp = ALUOpI; 
-	B = BI;
-	BZ = BZI;
-	BNZ = BNZI;
-	MemWrite = MemWriteI;
-	MemRead = MemReadI;
-	MemtoReg = MemtoRegI;
-	RegWrite = RegWriteI;
-	Instruction = InstructionI;
-	#2;
+        Address <= inBuf[63:0];
+        signExtInstr <= inBuf[159:96];
+        Data1 <= inBuf[223:160];
+        Data2 <= inBuf[287:224];
+        ALUSrc <= inBuf[289:288];
+        ALUOp <= inBuf[291:290];
+        B <= inBuf[192];
+        BZ <= inBuf[193];
+        BNZ <= inBuf[194];
+        MemWrite <= inBuf[195];
+        MemRead <= inBuf[196];
+        MemtoReg <= inBuf[197];
+        RegWrite <= inBuf[198];
+	Instruction = inBuf[95:64];
+  end
+
+  always@(negedge clk)
+  begin
+        outBuf[31:0] <= Instruction;
+        outBuf[95:32] <= branchAddress;
+        outBuf[159:96] <= Results;
+        outBuf[223:160] <= Data2;
+        outBuf[224] <= zero;
+	outBuf[225] <= B;
+	outBuf[226] <= BZ;
+	outBuf[227] <= BNZ;
+	outBuf[228] <= MemRead;
+	outBuf[229] <= MemWrite;
+	outBuf[230] <= MemtoReg;
+	outBuf[231] <= RegWrite;
   end
 
   always @(Instruction)
   begin
         $display("EXcode value: %32b %d\n", Instruction[31:0], $time);
 
-
+	#40
 	branchAddress <= Address + (signExtInstr << 2);
 
 	case(ALUSrc)
@@ -60,7 +70,7 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 		default: $display("You messed up. ALUSrc sent invalid ",
 			"Instr.\n");
 	endcase
-	#1 //Wait for ALU control
+	 //Wait for ALU control
 	case(ALUInst)
 		4'b0000: Results = Data1 & ALUInput2;
 		4'b0001: Results = Data1 | ALUInput2;
@@ -77,23 +87,6 @@ module Execution(AddressI, InstructionI, signExtInstrI, Data1I, Data2I, ALUSrcI,
 	else
 		zero = 0;
 
-  end
-
-  always
-  begin
-        #3
-        BO = B;
-       	BZO = BZ;
-       	BNZO = BNZ;
-	MemWriteO = MemWrite;
-        MemReadO = MemRead;
-	MemtoRegO = MemtoReg;
-	RegWriteO = RegWrite;
-       	zeroO = zero;
-	Data2O = Data2;
-	branchAddressO = branchAddress;
-	ResultsO = Results;
-        InstructionO = InstructionO;
   end
 
 endmodule
