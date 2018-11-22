@@ -20,7 +20,7 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
   MemoryAccess mem(outBuf, oldBranchAddress, PCSrc,
 	oldRegWrite, Data2Write, Reg2Write, clk);
 
-  alu_control aluControl(Instruction[31:21], ALUOp, ALUInst);
+  alu_control aluControl(Instruction[31:21], ALUOp, ALUInst, clk);
  
   always@(posedge clk)
   begin
@@ -60,7 +60,7 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
   begin
         $display("EXcode value: %32b %d\n", Instruction[31:0], $time);
 
-	#40
+	#10
 	branchAddress <= Address + (signExtInstr << 2);
 
 	case(ALUSrc)

@@ -1,9 +1,12 @@
-module alu_control (inst31_21, ALUOp, control_line);
+module alu_control (inst31_21, ALUOp, control_line, clk);
 	input[10:0] inst31_21;
 	input[1:0] ALUOp;
+	input clk;
 	output reg[3:0]control_line;
 	
-	always @(inst31_21 & ALUOp) begin 
+	always @(posedge clk) begin
+		#2
+		$display("\tAh____%b\n", ALUOp);
 		case(ALUOp)
 			2'b00: // LDUR & STUR
 				control_line[3:0] <= 4'b0010;

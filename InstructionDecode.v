@@ -22,9 +22,8 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
   end
 
   cpu_control controlUnit(Instruction[31:21], Reg2Loc, B, BZ, BNZ,
-	  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite);
-
-  
+	  MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite, clk);
+ 
   Execution ex(outBuf, Data2Write, Reg2Write, OldRegWrite, BranchAddress,
 	  PCSrc, clk);
 
@@ -56,7 +55,8 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
   begin
 	  $display("IDcode value: %32b %d\n", Instruction[31:0], $time);
 	  Data1 <= Regs[Instruction[9:5]];
- 	  #40
+
+	  #10
 	  if (Reg2Loc == 0)
 	          Data2 = Regs[Instruction[20:16]];
 	  else
