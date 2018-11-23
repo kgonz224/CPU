@@ -16,6 +16,7 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
   reg [63:0] branchAddress, Results, ALUInput2;
   reg zero;
   reg [231:0] outBuf;
+  wire [3:0] ALUInst;
 
   MemoryAccess mem(outBuf, oldBranchAddress, PCSrc,
 	oldRegWrite, Data2Write, Reg2Write, clk);
@@ -56,21 +57,18 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
 	outBuf[231] <= RegWrite;
   end
 
-  always @(Instruction)
+  always @(posedge clk)
   begin
-        $display("EX branchAddress out: %b\nOldBranchAddress:     %b\n", outBuf[95:32], oldBranchAddress);
-
-	#10
+	#2
 	branchAddress <= Address + (signExtInstr << 2);
-
+	
 	case(ALUSrc)
 		2'b00: ALUInput2 = Data2;
 		2'b01: ALUInput2 = signExtInstr;
 		2'b10: ALUInput2 = Instruction[21:10];
-		default: $display("You messed up. ALUSrc sent invalid ",
-			"Instr.\n");
+		default: begin end
 	endcase
-	 //Wait for ALU control
+	#60
 	case(ALUInst)
 		4'b0000: Results = Data1 & ALUInput2;
 		4'b0001: Results = Data1 | ALUInput2;
@@ -78,15 +76,13 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
                 4'b0110: Results = Data1 - ALUInput2;
                 4'b0111: Results = ALUInput2;
                 4'b1100: Results = ~(Data1 | ALUInput2);
-		default: $display("You messed up. ALUControl sent invalid ",
-		       	"Instr.\n");
+		default: begin end
 	endcase
 
 	if (Results == 0)
 		zero = 1;
 	else
 		zero = 0;
-
   end
 
 endmodule

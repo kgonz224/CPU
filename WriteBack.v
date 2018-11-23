@@ -18,10 +18,11 @@ module WriteBack(inBuf, Data2Write, Reg2Write, oldRegWrite, clk);
         RegWrite = inBuf[134];
   end
 
-  always @(RegWrite)
+  always @(posedge clk)
   begin
+	  #2
 	  oldRegWrite = RegWrite;
-	  Reg2Write <= Reg;
+	  Reg2Write = Reg;
 
 	  if (MemToReg == 0)
 		  Data2Write = Results;

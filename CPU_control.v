@@ -133,7 +133,6 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 
 				default:
 				begin
-					$display("Hi\n");
 					case(inst31_21[10:3])
 					8'b10110100: //CBZ
 					begin
@@ -178,6 +177,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 							ALUSrc <= 2'b00;
 							RegWrite <= 0;
 						end
+						6'bxxxxxx: begin end
 					default: 
 						$display("You messed up. ",
 						"Invalid opcode sent.\n");

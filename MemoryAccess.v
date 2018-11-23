@@ -52,16 +52,23 @@ module MemoryAccess(inBuf, oldBranchAddress, PCSrc,
         outBuf[134] <= RegWrite;
   end
 
-  always @(Instruction)
+  always @(posedge clk)
   begin
-	PCSrc <= B | (BZ & zero) | (BNZ & ~zero);
-	  
+	#2
+	PCSrc = B | (BZ & zero) | (BNZ & ~zero); 
 	if (MemWrite == 1)
 		DMem[Results] = Data2;
 	if (MemRead == 1)
 		loadedData = DMem[Results];
 
 	oldBranchAddress = branchAddress;
-	$display("MEM Branch:          %b\n", oldBranchAddress);
+  end
+
+  always @(Instruction)
+  begin
+        if (Instruction[31:21] == {11{1'b1}})
+        begin
+                $writememh("DM_Final_Bytes.txt", DMem);
+        end
   end
 endmodule

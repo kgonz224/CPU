@@ -13,6 +13,8 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
   reg [63:0] Data1, Data2, signExtInstr;
   wire Reg2Loc, RegWrite, B, BZ, BNZ, MemRead, MemWrite, MemtoReg, PCSrc;
   wire [1:0] ALUOp, ALUSrc;
+  wire [4:0] Reg2Write;
+  wire [63:0] Data2Write;
   reg [298:0] outBuf;
 
   initial
@@ -51,9 +53,9 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
 	outBuf[198] <= RegWrite;
   end
 
-  always@(Instruction)
+  always@(posedge clk)
   begin
-	  $display("ID Address out:       %b\nBranchAddress:        %b\n", Address, BranchAddress);
+	  #2
 	  Data1 <= Regs[Instruction[9:5]];
 
 	  #10
@@ -65,10 +67,10 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
 	  if(B)
 	  begin
 		  signExtInstr[25:0] = Instruction[25:0];
-		  signExtInstr[63:45] = {38{Instruction[25]}};  
+		  signExtInstr[63:45] = {38{Instruction[25]}};
 	  end
-	  else if(BZ | BNZ)
-	  begin		  
+	  else if(BZ || BNZ)
+	  begin
 		  signExtInstr[18:0] = Instruction[23:5];
 		  signExtInstr[63:45] = {45{Instruction[23]}};
 	  end
@@ -78,11 +80,7 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
 		  signExtInstr[63:10] = {54{Instruction[20]}};
 	  end
 
-  end
-
-  always @(OldRegWrite)
-  begin
-	Regs[Reg2Write] = Data2Write;
+          Regs[Reg2Write] = Data2Write;
   end
 endmodule
 
