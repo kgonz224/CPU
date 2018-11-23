@@ -53,7 +53,7 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
 
   always@(Instruction)
   begin
-	  $display("IDcode value: %32b %d\n", Instruction[31:0], $time);
+	  $display("ID Address out:       %b\nBranchAddress:        %b\n", Address, BranchAddress);
 	  Data1 <= Regs[Instruction[9:5]];
 
 	  #10

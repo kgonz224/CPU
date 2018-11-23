@@ -9,7 +9,6 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 	
 	always @ (posedge clk) begin 
 		#2
-		$display("\tOh____%b%d\n", inst31_21, $time);
 		case(inst31_21)
 			11'b11010101000: //NOP
 			begin
@@ -133,6 +132,8 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
                      		end
 
 				default:
+				begin
+					$display("Hi\n");
 					case(inst31_21[10:3])
 					8'b10110100: //CBZ
 					begin
@@ -182,6 +183,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 						"Invalid opcode sent.\n");
 					endcase
 				endcase
+			end
 			endcase	
 		endcase
 	end 

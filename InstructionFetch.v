@@ -35,14 +35,14 @@ module InstructionFetch; // processor test bench template
   InstructionDecode id(outBuf, PCSrc, BranchAddress, clk);
 
   always@(posedge clk) //sequential logic of fetch for illustration
-  begin 
+  begin
+	 $display("\nNew Instruction\n"); 
 	// this code block can be performed in any other module
 	// concatenate four bytes of IMem into PC
 	  instruction[7:0] = IMem[PC];
 	  instruction[15:8] = IMem[PC + 1];
 	  instruction[23:16] = IMem[PC + 2];
 	  instruction[31:24] = IMem[PC + 3];
-	  $display("Opcode value: %32b %d\n", instruction[31:0], $time);
   
 	#40
 	if (PCSrc == 0)
@@ -51,6 +51,7 @@ module InstructionFetch; // processor test bench template
 	end
 	if (PCSrc == 1)
 	begin
+		$display("Branched to:          %b\n", BranchAddress);
 		PC = BranchAddress;
 	end
 
@@ -61,6 +62,7 @@ module InstructionFetch; // processor test bench template
   begin
 	outBuf[31:0] = instruction;
 	outBuf[95:32] = PC;
+	$display("IF PC:                %b\n", outBuf[95:32]);
   end
 
   // output data memory to a file when HALT instruction is fetched

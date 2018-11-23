@@ -54,8 +54,6 @@ module MemoryAccess(inBuf, oldBranchAddress, PCSrc,
 
   always @(Instruction)
   begin
-        $display("MEMode value: %32b %d\n", Instruction[31:0], $time);
-
 	PCSrc <= B | (BZ & zero) | (BNZ & ~zero);
 	  
 	if (MemWrite == 1)
@@ -64,5 +62,6 @@ module MemoryAccess(inBuf, oldBranchAddress, PCSrc,
 		loadedData = DMem[Results];
 
 	oldBranchAddress = branchAddress;
+	$display("MEM Branch:          %b\n", oldBranchAddress);
   end
 endmodule

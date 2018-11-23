@@ -58,7 +58,7 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
 
   always @(Instruction)
   begin
-        $display("EXcode value: %32b %d\n", Instruction[31:0], $time);
+        $display("EX branchAddress out: %b\nOldBranchAddress:     %b\n", outBuf[95:32], oldBranchAddress);
 
 	#10
 	branchAddress <= Address + (signExtInstr << 2);
