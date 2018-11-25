@@ -1,21 +1,4 @@
-/*=======================================================
- Name: Hajar Wahman				  Panther-ID: x x x - 8482
-	   Neilivet Linares  		  Panther-ID: x x x - 0185
-	   Vanessa Velez-Santos		  Panther-ID: x x x - 9302
- 
- Course: CDA 4101
- 
- Project#: 4
- 
- Due: Tue, Nov 6, 2018
- 
- I hereby certify that this work is my own and na of
- it is the work of any other person.
- 
- Signature: ______________________
-			_________________________
-			_________________________
- =========================================================*/
+
 module alu(a, b,opcode,out);
 input [31:0] a, b;
 input [9:0] opcode; //10 bit opcode
