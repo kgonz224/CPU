@@ -1,7 +1,5 @@
 
-/*Mux controls 	Pipeline 
-				Register
-				Sources
+/*ID/EX HAZARDS
 ForwardA = 00 	ID/EX	The first ALU operand comes from the register file.
 ForwardB = 00	ID/EX 	The second ALU operand comes from the register file. 
 	 */
@@ -46,10 +44,10 @@ module DataForwarding(EX_MEMregwrite, EX_MEMregRD,ID_EXregRS, ID_EXregRT,
 	if(EX_MEMregwrite == 1)
 	begin
 		//if true, the first ALU operand comes from the prior ALU result.
-		if(EX_MEMregRD = ID_EXregRS) 
+		if(EX_MEMregRD == ID_EXregRS) 
 			assign ForwardA = 2'b10;
 		//if true, the second ALU operand comes from the prior ALU result. 
-		if(EX_MEMregRD = ID_EXregRT) 
+		if(EX_MEMregRD == ID_EXregRT) 
 			assign ForwardB = 2'b10;
 	end
 	
@@ -57,10 +55,12 @@ module DataForwarding(EX_MEMregwrite, EX_MEMregRD,ID_EXregRS, ID_EXregRT,
 	if( MEM_WBregwrite == 1 )
 	begin
 		//The first ALU operand comes from data memory or an early ALU result. 
-		if( (MEM_WBregRD = ID_EXregRS) and (EX_MEMregRD != ID_EXregRS or EX_MEMregwrite == 0) )
+		if( (MEM_WBregRD == ID_EXregRS) 
+		&& ( EX_MEMregRD != ID_EXregRS || EX_MEMregwrite == 0) )
 			assign ForwardA = 2'b1;
 		//The second ALU operand comes from data memory or an early ALU result.
-		if( (MEM_WBregRD = ID_EXregRT) and (EX_MEMregRD != ID_EXregRT or EX_MEMregwrite == 0) )
+		if( (MEM_WBregRD == ID_EXregRT) 
+		&& (EX_MEMregRD != ID_EXregRT || EX_MEMregwrite == 0) )
 			assign ForwardB = 2'b1;
 	end 
 
