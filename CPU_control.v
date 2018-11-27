@@ -48,7 +48,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 1;
 				ALUSrc <= 2'b01;
 				RegWrite <= 0;
-				$display("AYEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+		
 			end
 			11'b10001011000: //ADD
 			begin
