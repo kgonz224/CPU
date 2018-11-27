@@ -31,13 +31,13 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
         Data2 <= inBuf[287:224];
         ALUSrc <= inBuf[289:288];
         ALUOp <= inBuf[291:290];
-        B <= inBuf[192];
-        BZ <= inBuf[193];
-        BNZ <= inBuf[194];
-        MemWrite <= inBuf[195];
-        MemRead <= inBuf[196];
-        MemtoReg <= inBuf[197];
-        RegWrite <= inBuf[198];
+        B <= inBuf[292];
+        BZ <= inBuf[293];
+        BNZ <= inBuf[294];
+        MemWrite <= inBuf[295];
+        MemRead <= inBuf[296];
+        MemtoReg <= inBuf[297];
+        RegWrite <= inBuf[298];
 	Instruction = inBuf[95:64];
   end
 
@@ -60,8 +60,7 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
   always @(posedge clk)
   begin
 	#2
-	branchAddress <= Address + (signExtInstr << 2);
-	
+	branchAddress = Address + (signExtInstr << 2);
 	case(ALUSrc)
 		2'b00: ALUInput2 = Data2;
 		2'b01: ALUInput2 = signExtInstr;
@@ -72,7 +71,7 @@ module Execution(inBuf, Data2Write, Reg2Write, oldRegWrite, oldBranchAddress,
 	case(ALUInst)
 		4'b0000: Results = Data1 & ALUInput2;
 		4'b0001: Results = Data1 | ALUInput2;
-                4'b0010: Results = Data1 + ALUInput2;
+		4'b0010: Results = Data1 + ALUInput2;
                 4'b0110: Results = Data1 - ALUInput2;
                 4'b0111: Results = ALUInput2;
                 4'b1100: Results = ~(Data1 | ALUInput2);

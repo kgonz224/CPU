@@ -67,7 +67,7 @@ xx
 xx
 xx
 // 0x00000040
-xx
+0d
 xx
 xx
 xx
@@ -84,7 +84,7 @@ xx
 xx
 xx
 // 0x00000050
-xx
+0d
 xx
 xx
 xx
@@ -112,7 +112,7 @@ xx
 xx
 xx
 xx
-06
+xx
 xx
 xx
 xx

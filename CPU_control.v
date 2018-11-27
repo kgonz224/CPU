@@ -8,7 +8,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
     	output reg MemWrite, RegWrite;
 	
 	always @ (posedge clk) begin 
-		#2
+		#10
 		case(inst31_21)
 			11'b11010101000: //NOP
 			begin
@@ -34,7 +34,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				ALUOp <= 2'b00;
 				MemWrite <= 0;
 				ALUSrc <= 2'b01;
-				RegWrite <= 1;
+				RegWrite = 1;
 			end
 			11'b11111000000: //STUR 
 			begin
@@ -48,6 +48,7 @@ module cpu_control (inst31_21,Reg2Loc, Branch, BranchZero, BranchNonZero,
 				MemWrite <= 1;
 				ALUSrc <= 2'b01;
 				RegWrite <= 0;
+				$display("AYEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			end
 			11'b10001011000: //ADD
 			begin

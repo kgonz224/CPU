@@ -14,6 +14,7 @@ module InstructionFetch; // processor test bench template
   reg clk;
   reg [95:0] outBuf;
   wire [63:0] BranchAddress;
+  integer i;
 
   initial // load instruction memory and data memory
   begin 
@@ -23,6 +24,7 @@ module InstructionFetch; // processor test bench template
 	$readmemh("IM_Bytes.txt", IMem);
 //	$readmemh("DM_Bytes.txt", DMem);
 	PC = 64'b0; // initialize PC
+	i = 0;
   end 
  
   always
@@ -42,22 +44,20 @@ module InstructionFetch; // processor test bench template
 	  instruction[15:8] = IMem[PC + 1];
 	  instruction[23:16] = IMem[PC + 2];
 	  instruction[31:24] = IMem[PC + 3];
-  
+ 	  $display("\n\nNew Instruction: %d", i); 
+	  i = i +1;
 	#70
-	if (PCSrc == 0)
-	begin
-		PC = PC + 4; // PC needs to be updated in the processor/datapath module
-	end
 	if (PCSrc == 1)
-	begin
-		PC = BranchAddress;
-	end
+		PC = BranchAddress - 4;
+	else
+		PC = PC + 4;
   end
 
   always@(negedge clk)
   begin
 	outBuf[31:0] = instruction;
 	outBuf[95:32] = PC;
+	$display("IF: %b", instruction[31:21]);
   end
 
   // output data memory to a file when HALT instruction is fetched

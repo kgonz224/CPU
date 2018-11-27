@@ -44,23 +44,24 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
         outBuf[287:224] <= Data2;
         outBuf[289:288] <= ALUSrc;
         outBuf[291:290] <= ALUOp;
-        outBuf[192] <= B;
-        outBuf[193] <= BZ;
-        outBuf[194] <= BNZ;
-        outBuf[195] <= MemWrite;
-        outBuf[196] <= MemRead;
-        outBuf[197] <= MemtoReg;
-	outBuf[198] <= RegWrite;
+        outBuf[292] <= B;
+        outBuf[293] <= BZ;
+        outBuf[294] <= BNZ;
+        outBuf[295] <= MemWrite;
+        outBuf[296] <= MemRead;
+        outBuf[297] <= MemtoReg;
+	outBuf[298] = RegWrite;
   end
 
   always@(posedge clk)
   begin
 	  #2
-	  Data1 <= Regs[Instruction[9:5]];
+	  Data1 = Regs[Instruction[9:5]];
 
 	  #10
 	  if (Reg2Loc == 0)
 	          Data2 = Regs[Instruction[20:16]];
+
 	  else
                   Data2[7:0] = Regs[Instruction[4:0]];
 
@@ -76,11 +77,12 @@ module InstructionDecode(inBuf, PCSrc, BranchAddress, clk);
 	  end
 	  else
 	  begin
-		  signExtInstr[9:0] = Instruction[20:11];
-		  signExtInstr[63:10] = {54{Instruction[20]}};
+		  signExtInstr[8:0] = Instruction[20:12];
+		  signExtInstr[63:9] = {54{Instruction[20]}};
 	  end
 
           Regs[Reg2Write] = Data2Write;
+
   end
 endmodule
 
